@@ -1,19 +1,52 @@
-# Hello, world!
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
+
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
+##################################
+
+### ggplot-theme.
+# ***Font is `BentonSans Regular`, and must be installed first
+# *** title, subtitle are centered
+
+##ggplot(ggplot2::mpg, aes(cty, class)) + geom_col() + labs(title = "This is a title", subtitle = "This is a subtitle") + theme_pedr()
 
 
+theme_pedr <- function(base_size = 11,
+                       strip_text_size = 12,
+                       strip_text_margin = 5,
+                       subtitle_size = 13,
+                       subtitle_margin = 10,
+                       plot_title_size = 16,
+                       plot_title_margin = 10,
+                       ...) {
+  ret <- ggplot2::theme_minimal(base_family = "BentonSans Regular",
+                                base_size = base_size, ...)
+  ret$strip.text <- ggplot2::element_text(
+    hjust = 0, size = strip_text_size,
+    margin = ggplot2::margin(b = strip_text_margin),
+    family = "BentonSans Regular"
+  )
+  ret$plot.subtitle <- ggplot2::element_text(
+    hjust = 0.5, size = subtitle_size,
+    margin = ggplot2::margin(b = subtitle_margin),
+    family = "BentonSans Regular",
+    color = "gray10"
+  )
+  ret$plot.title <- ggplot2::element_text(
+    hjust = 0.5, size = plot_title_size,
+    margin = ggplot2::margin(b = plot_title_margin),
+    family = "BentonSans Bold"
+  )
+
+  ret
+}
+
+
+#############################
+## This is a summarize function, and return to into a tibble
+#
 # a <- seq(1,9,2)
 # b <- rep(letters)
 # c <- rep(c(a,NA),10)
@@ -81,10 +114,10 @@ sum_fun <- function(x, na.rm = FALSE) {
   sd = sqrt(sum(sdv)/(length_m-1))
   se = sd/sqrt(length_m)
 
-  output = tibble(mean = mean, geo_mean = geo, harm_mean = h_mean, median = med, standard_deviation= sd, standard_error = se, n=length_m)
+  output = dplyr::tibble(mean = mean, geo_mean = geo, harm_mean = h_mean, median = med, standard_deviation= sd, standard_error = se, n=length_m)
   return(output)
 
 }
 
-
+########
 
