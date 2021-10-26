@@ -194,11 +194,40 @@ mode <- function(x, na.rm = FALSE) {
 }
 
 ########
+#Metrics for regression and classification
+
+mset <- function(mode = "C",...) {
+  mode = stringr::str_to_upper(mode)
+
+  if (!mode %in% c("C", "R")) {
+    stop("Mode must be classification or regression")
+  }
+
+  if (mode == "R") {
+    yardstick::metric_set(yardstick::rmse,
+                          yardstick::rsq,
+                          yardstick::mae,
+                          yardstick::mape,
+                          yardstick::mase,
+                          ...)
+  }
+  else{
+    yardstick::metric_set(yardstick::roc_auc,
+                          yardstick::accuracy,
+                          yardstick::sensitivity,
+                          yardstick::specificity,
+                          yardstick::mn_log_loss,
+                          ...)
+  }
+
+}
 
 
 
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Cmd + Shift + B'
-#   Check Package:             'Cmd + Shift + E'
-#   Test Package:              'Cmd + Shift + T'
+############################################################
+# Some useful keyboard shortcuts for package authoring:    #
+#                                                          #
+#   Install Package:           'Cmd + Shift + B'           #
+#   Check Package:             'Cmd + Shift + E'           #
+#   Test Package:              'Cmd + Shift + T'           #
+############################################################
