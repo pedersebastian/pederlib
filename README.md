@@ -29,3 +29,16 @@ library(pederlib)
 #>     mode
 ## basic example code
 ```
+
+Innhold: \#\*\*\*\*\*\*\* Contains: \*\*\*\*\*\*\*\*\*\*\*
+
+``` r
+#  theme_pedr
+#  theme_center
+#  komma  (scales:: object with decimal mark as , )
+#  prosent (scales:: object with decimal mark as , )
+#  sum_fun (Summary fun into tibble)
+#  mode (Finding the mode in a numeric vector)
+#  Root mean squard log error for yardstick
+#  Template for initial split and resampling
+```
