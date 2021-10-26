@@ -197,6 +197,16 @@ mode <- function(x, na.rm = FALSE) {
 #Metrics for regression and classification
 
 mset <- function(mode = "C",...) {
+  arguments <- match.call()
+  arguments <- as.list(arguments)
+  if (is.null(arguments$mode)) {
+    mode <- "C"
+  }
+else{
+  mode <- arguments$mode
+}
+
+
   mode = stringr::str_to_upper(mode)
 
   if (!mode %in% c("C", "R")) {
@@ -221,7 +231,104 @@ mset <- function(mode = "C",...) {
   }
 
 }
+############################################################
 
+
+# > use_split(mtcars, mpg)
+# set.seed(540)
+# mtcars_split<-
+#   initial_split(mtcars, strata = mpg)
+#
+# mtcars_train<-
+#   training(mtcars_split)
+# mtcars_test<-
+#   testing(mtcars_split)
+#
+#
+# set.seed(725)
+# mtcars_folds<-
+#   vfold_cv(mtcars_train, strata = mpg, v = 10)
+
+
+
+
+
+
+
+
+use_split <- function(data, strata, resamples = "vfold", n =NULL) {
+      ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot")
+      boot <-  c("bootstraps", "bootstrap", "boot")
+
+      data <- NULL
+      strata <- NULL
+      n <- NULL
+
+  arguments <- match.call()
+ arguments <- as.list(arguments)
+
+  df <- arguments$data
+  strata  <- arguments$strata
+  n <- arguments$n
+
+  if (!is.null(arguments$resamples)) {
+
+    resamples <- arguments$resamples
+  }
+  else{
+    resamples <- "vfold"
+  }
+
+  #
+
+  if (!resamples %in% ok_resamples) {
+    stop("Does only support v_fold and bootstraps")
+  }
+
+  if (is.null(n)) {
+    if (resamples %in% boot) {
+      n="25"
+    }
+    else{
+      n="10"
+    }
+  }
+
+
+  df_name <- stringr::str_remove(df, "df")
+  df_name <- stringr::str_squish(df_name)
+  new_line <- paste0("\n")
+
+
+
+
+  lib <- paste0("library(tidymodels)\n\n")
+  seed_1 <- glue::glue("set.seed({sample.int(1e3, size = 1)})")
+  seed_1 <- paste0(seed_1,"\n")
+  split <- paste0(df_name,"_split<-\n\tinitial_split(", df, ", strata = ", strata, ")", sep = "")
+  train <- paste0(df_name,"_train<-\n\t", "training(",df,"_split)\n", sep = "")
+  test <- paste0(df_name,"_test<-\n\t", "testing(",df,"_split)\n\n\n", sep = "")
+  seed_2 <- glue::glue("set.seed({sample.int(1e3, size = 1)})")
+  seed_2 <- paste0(seed_2,"\n")
+
+  if (resamples %in% boot) {
+
+    folds <-
+      paste0(df_name,"_folds<-\n\tbootstraps(", df_name, "_train, strata = ", strata, ", times = ", n,")\n", sep = "")
+
+
+  }
+  else{
+    folds <-
+      paste0(df_name,"_folds<-\n\tvfold_cv(", df_name, "_train, strata = ", strata, ", v = ", n,")\n", sep = "")
+
+  }
+
+  rs <- paste0(seed_1,split, "\n\n", train,test, seed_2,folds, sep = "\n")
+  cat(rs)
+
+
+}
 
 
 ############################################################
