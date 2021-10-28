@@ -61,28 +61,54 @@ mset <- function(mode = "C",...) {
 
 
 
+##TO DO
+#*Fikse sånn at det matcher med test_train osv
 
 
-
-use_split <- function(data, strata, resamples = "vfold", n =NULL) {
-  ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot")
+use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL) {
+  ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
+  vfold_ok <- c("vfold", "vfolds", "v_fold", "v_folds")
   boot <-  c("bootstraps", "bootstrap", "boot")
 
-  data <- NULL
-  strata <- NULL
-  n <- NULL
+
+  #strata <- NULL
+
+
+  if (is.null(resamples)) {
+    n = dim(data)
+    n= n[[1]]
+
+
+  }
+
+
+  #data <- NULL
 
   arguments <- match.call()
   arguments <- as.list(arguments)
 
   df <- arguments$data
   strata  <- arguments$strata
-  n <- arguments$n
+  number_folds <- arguments$number_folds
+
+
+  if (is.null(strata)) {
+    strata  <- "NULL"
+  }
+
+
 
   if (!is.null(arguments$resamples)) {
 
     resamples <- arguments$resamples
+
   }
+
+
+  else if (n<=1000) {
+    resamples <- "bootstraps"
+  }
+
   else{
     resamples <- "vfold"
   }
@@ -90,22 +116,28 @@ use_split <- function(data, strata, resamples = "vfold", n =NULL) {
   #
 
   if (!resamples %in% ok_resamples) {
-    stop("Does only support v_fold and bootstraps")
+    stop("Currently only support v_fold and bootstraps")
   }
 
-  if (is.null(n)) {
+  if (is.null(number_folds)) {
     if (resamples %in% boot) {
-      n="25"
+      number_folds="25"
     }
     else{
-      n="10"
+      number_folds="10"
     }
   }
 
 
-  df_name <- stringr::str_remove(df, "df")
+
+
+
+
+
+  df_name <- stringr::str_remove(df, "\\_.*$")
   df_name <- stringr::str_squish(df_name)
   new_line <- paste0("\n")
+  df_split <- paste0(df_name, "_split")
 
 
 
@@ -114,30 +146,48 @@ use_split <- function(data, strata, resamples = "vfold", n =NULL) {
   seed_1 <- glue::glue("set.seed({sample.int(1e3, size = 1)})")
   seed_1 <- paste0(seed_1,"\n")
   split <- paste0(df_name,"_split<-\n\tinitial_split(", df, ", strata = ", strata, ")", sep = "")
-  train <- paste0(df_name,"_train<-\n\t", "training(",df,"_split)\n", sep = "")
-  test <- paste0(df_name,"_test<-\n\t", "testing(",df,"_split)\n\n\n", sep = "")
+  train <- paste0(df_name,"_train<-\n\t", "training(",df_split,")\n", sep = "")
+  test <- paste0(df_name,"_test<-\n\t", "testing(",df_split,")\n\n\n", sep = "")
   seed_2 <- glue::glue("set.seed({sample.int(1e3, size = 1)})")
   seed_2 <- paste0(seed_2,"\n")
 
   if (resamples %in% boot) {
 
     folds <-
-      paste0(df_name,"_folds<-\n\tbootstraps(", df_name, "_train, strata = ", strata, ", times = ", n,")\n", sep = "")
+      paste0(df_name,"_folds<-\n\tbootstraps(", df_name, "_train, strata = ", strata, ", times = ", number_folds,")\n", sep = "")
 
 
   }
   else{
     folds <-
-      paste0(df_name,"_folds<-\n\tvfold_cv(", df_name, "_train, strata = ", strata, ", v = ", n,")\n", sep = "")
+      paste0(df_name,"_folds<-\n\tvfold_cv(", df_name, "_train, strata = ", strata, ", v = ", number_folds,")\n", sep = "")
 
   }
 
-  rs <- paste0(seed_1,split, "\n\n", train,test, seed_2,folds, sep = "\n")
+  rs <- paste0(lib,
+               seed_1,
+               split,
+               "\n\n",
+               train,
+               test,
+               seed_2,
+               folds,
+               sep = "\n")
   cat(rs)
 
 
 }
 
+
+##MÅ fikse sånn at den sier feilmedling hvis n_folds ikke er numerisk eller null
+#if (is.character(number_folds) | is.character()) {
+#
+#}
+
+
+use_split(car_df, number_folds = a)
+
+ti <- tibble(x = 1:10, y = 1:10)
 
 ##
 ##################################
