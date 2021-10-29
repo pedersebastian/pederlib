@@ -43,6 +43,7 @@ mset <- function(mode = "C",...) {
 
 
 # > use_split(mtcars, mpg)
+
 # set.seed(540)
 # mtcars_split<-
 #   initial_split(mtcars, strata = mpg)
@@ -61,28 +62,19 @@ mset <- function(mode = "C",...) {
 
 
 
-##TO DO
-#*Fikse sånn at det matcher med test_train osv
-
-
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL) {
+
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
   vfold_ok <- c("vfold", "vfolds", "v_fold", "v_folds")
   boot <-  c("bootstraps", "bootstrap", "boot")
 
 
-  #strata <- NULL
 
 
   if (is.null(resamples)) {
     n = dim(data)
     n= n[[1]]
-
-
-  }
-
-
-  #data <- NULL
+              }
 
   arguments <- match.call()
   arguments <- as.list(arguments)
@@ -92,10 +84,10 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
   number_folds <- arguments$number_folds
 
 
+
   if (is.null(strata)) {
     strata  <- "NULL"
   }
-
 
 
   if (!is.null(arguments$resamples)) {
@@ -128,10 +120,14 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
     }
   }
 
+if (stringr::str_detect(as.character(number_folds), "[:alpha:]")) {
+  stop("Number of folds must be numeric")
 
+}
 
-
-
+  else {
+    number_folds = number_folds
+  }
 
 
   df_name <- stringr::str_remove(df, "\\_.*$")
@@ -174,22 +170,19 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
                folds,
                sep = "\n")
   cat(rs)
-
+  invisible(NULL)
 
 }
 
 
-##MÅ fikse sånn at den sier feilmedling hvis n_folds ikke er numerisk eller null
-#if (is.character(number_folds) | is.character()) {
-#
-#}
 
 
-use_split(car_df, number_folds = a)
 
-ti <- tibble(x = 1:10, y = 1:10)
+#use_split(ti, strata = y,)
 
-##
+#ti <- tibble(x = 1:10, y = 1:10)
+
+
 ##################################
 
 ###  theme_pedr

@@ -37,8 +37,7 @@ This is a basic example which shows you how to solve a common problem:
 library(pederlib)
 ## basic example code
 ```
-Innhold: 
-#******* Contains: ***********
+Contains: 
 ```{r}
 #  theme_pedr
 #  theme_center

@@ -30,7 +30,7 @@ library(pederlib)
 ## basic example code
 ```
 
-Innhold: \#\*\*\*\*\*\*\* Contains: \*\*\*\*\*\*\*\*\*\*\*
+Contains:
 
 ``` r
 #  theme_pedr
