@@ -1,6 +1,9 @@
+###Read csv with encoding from ssb, london etc..
 
-
-
+read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
+  csv <- vroom::vroom(file, skip = skip, locale = vroom::locale(encoding = encoding), ...)
+  csv
+}
 
 
 
@@ -31,7 +34,7 @@ sum_fun <- function(x, na.rm = FALSE) {
   if(any(is.na(x))){
 
     if(na.rm ==FALSE){
-      stop("Vector contains NA")
+      stop("Vector contains NA, reconsider")
 
     }
     else {

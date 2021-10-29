@@ -210,9 +210,15 @@ theme_pedr <- function(base_size = 11,
   ret <- ggplot2::theme_minimal(base_family = "BentonSans Regular",
                                 base_size = base_size, ...)
   ret$strip.text <- ggplot2::element_text(
-    hjust = 0, size = strip_text_size,
+    hjust = 0.5, size = strip_text_size,
     margin = ggplot2::margin(b = strip_text_margin),
     family = "BentonSans Regular"
+  )
+  ret$strip.background <-  ggplot2::element_rect(
+    fill = "gray80",
+    color = NA,
+    size = NULL,
+    linetype = NULL
   )
   ret$plot.subtitle <- ggplot2::element_text(
     hjust = 0.5, size = subtitle_size,
@@ -241,10 +247,17 @@ theme_center <- function(base_size = 11,
   ret <- ggplot2::theme_minimal(base_family = NULL,
                                 base_size = base_size, ...)
   ret$strip.text <- ggplot2::element_text(
-    hjust = 0, size = strip_text_size,
+    hjust = 0.5, size = strip_text_size,
     margin = ggplot2::margin(b = strip_text_margin),
     family = NULL
   )
+
+  ret$strip.background <-  ggplot2::element_rect(
+    fill = "gray80",
+    color = NA,
+    size = NULL,
+    linetype = NULL
+    )
   ret$plot.subtitle <- ggplot2::element_text(
     hjust = 0.5, size = subtitle_size,
     margin = ggplot2::margin(b = subtitle_margin),
