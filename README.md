@@ -18,8 +18,6 @@ devtools::install_github("pedersebastian/pederlib")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
 library(pederlib)
 #> 
@@ -27,20 +25,19 @@ library(pederlib)
 #> The following object is masked from 'package:base':
 #> 
 #>     mode
-## basic example code
 ```
 
-Contains:
-
-``` r
-#  theme_pedr
-#  theme_center
-#  komma  (scales:: object with decimal mark as , )
-#  prosent (scales:: object with decimal mark as , )
-#  sum_fun (Summary fun into tibble)
-#  mode (Finding the mode in a numeric vector)
-#  Root mean squard log error for yardstick
-#  Template for initial split and resampling
-#  csv for european
-#  Metric_set defult for yardstick
-```
+| Add on to  | Function name       | Description                                                                                                                                        |
+|------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| ggplot2    | theme\_center()     | Based on theme\_minimal(), except light gray for background for the title of facets, and all titles are centered                                   |
+|            | theme\_pedr()       | Font: BentonSans, used in eg. Sykepleien forskning. Otherwise like theme\_center()                                                                 |
+| scales     | komma()             | like scales::comma\_format(), only that the decimal mark is “,” - not “.”                                                                          |
+|            | prosent             | ike scales::percent\_format(), only that the decimal mark is “,” - not “.”                                                                         |
+| yardstick  | rmsle()             | Root mean squared log error for yardstick                                                                                                          |
+|            | g\_mean()           | Geometric mean of sensitivity and specificity                                                                                                      |
+|            | mset()              | return a metric\_set object with different types of metric for regression and classification                                                       |
+|            |                     |                                                                                                                                                    |
+| “original” | read\_csv\_europe() | import csv using European encoding (“CP1252”), uses the vroom-package                                                                              |
+|            | mode()              | find the mode from a vector                                                                                                                        |
+|            | sum\_fun()          | Summarize function, returns a tibble                                                                                                               |
+|            | use\_split()        | Like the package usemodels, this function returns standard for spiting data into testing and training. Also create re samples from the testing-set |

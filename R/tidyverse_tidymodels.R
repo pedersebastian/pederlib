@@ -322,3 +322,115 @@ rmsle.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
   )
 }
 ###############
+# Geometric mean of sensitivity and specificity
+
+
+g_mean_vec <- function(truth,
+                       estimate,
+                       estimator = NULL,
+                       na_rm = TRUE,
+                       event_level = "first",
+                       ...) {
+
+  estimator <- finalize_estimator(truth, estimator, metric_class = "g_mean")
+
+  g_mean_impl <- function(truth, estimate) {
+    xtab <- table(estimate, truth)
+
+    g_mean_estimator_impl(xtab, estimator, event_level)
+  }
+
+  metric_vec_template(
+    metric_impl = g_mean_impl,
+    truth = truth,
+    estimate = estimate,
+    na_rm = na_rm,
+    cls = "factor",
+    estimator = estimator,
+    ...
+  )
+}
+
+# This function switches between binary and multiclass implementations
+g_mean_estimator_impl <- function(data, estimator, event_level) {
+  if(estimator == "binary") {
+    g_mean_binary(data, event_level)
+  } else {
+    # Encapsulates the macro, macro weighted, and micro cases
+    wt <- get_weights(data, estimator)
+    res <- g_mean_multiclass(data, estimator)
+    weighted.mean(res, wt)
+  }
+}
+
+g_mean_binary <- function(data, event_level) {
+  relevant_sens <- yardstick:::pos_val(data, event_level)
+  numer_sens <- sum(data[relevant_sens, relevant_sens])
+  denom_sens <- sum(data[, relevant_sens])
+
+  sens <- numer_sens/denom_sens
+
+  negative_spec <- yardstick:::neg_val(data, event_level)
+
+  numer_spec <- sum(data[negative_spec, negative_spec])
+  denom_spec <- sum(data[, negative_spec])
+
+  spec <- numer_spec/denom_spec
+
+  g_mean  <- sqrt(spec*sens)
+  g_mean
+}
+
+g_mean_multiclass <- function(data, estimator) {
+  numer_sens <- diag(data)
+  denom_sens <- colSums(data)
+  numer_sens <- sum(numer_sens, na.rm = TRUE)
+  denom_sens <- sum(denom_sens, na.rm = TRUE)
+  sens <- numer_sens/denom_sens
+
+  n_spec <- sum(data)
+
+  tp_spec   <- diag(data)
+  tpfp_spec <- rowSums(data)
+  tpfn_spec <- colSums(data)
+  tn_spec   <- n_spec - (tpfp_spec + tpfn_spec - tp_spec)
+  fp_spec   <- tpfp_spec - tp_spec
+
+  numer_spec <- tn_spec
+  denom_spec <- tn_spec + fp_spec
+
+  spec <-   numer_spec/denom_spec
+
+
+  g_mean  <- sqrt(spec*sens)
+  g_mean
+}
+
+
+g_mean <- function(data, ...) {
+  UseMethod("g_mean")
+}
+
+g_mean <- new_class_metric(g_mean, direction = "maximize")
+
+g_mean.data.frame <- function(data,
+                              truth,
+                              estimate,
+                              estimator = NULL,
+                              na_rm = TRUE,
+                              event_level = "first",
+                              ...) {
+  metric_summarizer(
+    metric_nm = "g_mean",
+    metric_fn = g_mean_vec,
+    data = data,
+    truth = !! enquo(truth),
+    estimate = !! enquo(estimate),
+    estimator = estimator,
+    na_rm = na_rm,
+    event_level = event_level,
+    ...
+  )
+}
+
+
