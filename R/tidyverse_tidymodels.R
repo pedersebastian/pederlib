@@ -332,7 +332,7 @@ g_mean_vec <- function(truth,
                        event_level = "first",
                        ...) {
 
-  estimator <- finalize_estimator(truth, estimator, metric_class = "g_mean")
+  estimator <- yardstick::finalize_estimator(truth, estimator, metric_class = "g_mean")
 
   g_mean_impl <- function(truth, estimate) {
     xtab <- table(estimate, truth)
@@ -340,7 +340,7 @@ g_mean_vec <- function(truth,
     g_mean_estimator_impl(xtab, estimator, event_level)
   }
 
-  metric_vec_template(
+  yardstick::metric_vec_template(
     metric_impl = g_mean_impl,
     truth = truth,
     estimate = estimate,
@@ -357,7 +357,7 @@ g_mean_estimator_impl <- function(data, estimator, event_level) {
     g_mean_binary(data, event_level)
   } else {
     # Encapsulates the macro, macro weighted, and micro cases
-    wt <- get_weights(data, estimator)
+    wt <- yardstick::get_weights(data, estimator)
     res <- g_mean_multiclass(data, estimator)
     weighted.mean(res, wt)
   }
@@ -411,7 +411,7 @@ g_mean <- function(data, ...) {
   UseMethod("g_mean")
 }
 
-g_mean <- new_class_metric(g_mean, direction = "maximize")
+g_mean <- yardstick::new_class_metric(g_mean, direction = "maximize")
 
 g_mean.data.frame <- function(data,
                               truth,
@@ -420,7 +420,7 @@ g_mean.data.frame <- function(data,
                               na_rm = TRUE,
                               event_level = "first",
                               ...) {
-  metric_summarizer(
+  yardstick::metric_summarizer(
     metric_nm = "g_mean",
     metric_fn = g_mean_vec,
     data = data,
