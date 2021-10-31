@@ -83,7 +83,7 @@ sum_fun <- function(x, na.rm = FALSE) {
 }
 ######function for finding mode in a numeric vector
 
-mode <- function(x, na.rm = FALSE) {
+mode_vec <- function(x, na.rm = FALSE) {
   if(!is.numeric(x)){
     stop("Imput must be numberic")
   }
