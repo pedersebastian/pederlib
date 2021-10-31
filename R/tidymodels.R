@@ -4,7 +4,7 @@
 ########
 #Metrics for regression and classification
 
-mset <- function(mode = "C",...) {
+mset <- function(mode = "C", ...) {
   arguments <- match.call()
   arguments <- as.list(arguments)
   if (is.null(arguments$mode)) {
@@ -14,29 +14,31 @@ mset <- function(mode = "C",...) {
     mode <- arguments$mode
   }
 
-
   mode = stringr::str_to_upper(mode)
+
 
   if (!mode %in% c("C", "R")) {
     stop("Mode must be classification or regression")
   }
 
   if (mode == "R") {
-    yardstick::metric_set(yardstick::rmse,
+    metrics <- yardstick::metric_set(...,
+                          yardstick::rmse,
                           yardstick::rsq,
                           yardstick::mae,
-                          yardstick::mape,
                           yardstick::mase,
-                          ...)
+                          )
   }
   else{
-    yardstick::metric_set(yardstick::roc_auc,
+    metrics <- yardstick::metric_set(...,
+                          yardstick::roc_auc,
                           yardstick::accuracy,
                           yardstick::sensitivity,
                           yardstick::specificity,
                           yardstick::mn_log_loss,
-                          ...)
+                          )
   }
+  metrics
 
 }
 ############################################################
@@ -60,7 +62,7 @@ mset <- function(mode = "C",...) {
 
 
 
-
+mset("C", first = recall)
 
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL) {
 
