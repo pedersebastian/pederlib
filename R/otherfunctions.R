@@ -38,7 +38,7 @@ sum_fun <- function(x, na.rm = FALSE) {
 
     }
     else {
-      x = na.omit(x)
+      x = stats::na.omit(x)
     }
   }
 

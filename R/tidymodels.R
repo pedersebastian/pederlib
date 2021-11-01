@@ -7,6 +7,7 @@
 mset <- function(mode = "C", ...) {
   arguments <- match.call()
   arguments <- as.list(arguments)
+
   if (is.null(arguments$mode)) {
     mode <- "C"
   }
@@ -14,14 +15,15 @@ mset <- function(mode = "C", ...) {
     mode <- arguments$mode
   }
 
-  mode = stringr::str_to_upper(mode)
+  mode  <-  stringr::str_to_upper(mode)
 
 
   if (!mode %in% c("C", "R")) {
-    stop("Mode must be classification or regression")
+    rlang::inform(message = "Mode must be classification(C) or regression(R) for standard setup\nYou can still specify your metric using ...\n\n")
+    metrics <- yardstick::metric_set(...)
   }
 
-  if (mode == "R") {
+  else if (mode == "R") {
     metrics <- yardstick::metric_set(...,
                           yardstick::rmse,
                           yardstick::rsq,
@@ -29,6 +31,7 @@ mset <- function(mode = "C", ...) {
                           yardstick::mase,
                           )
   }
+
   else{
     metrics <- yardstick::metric_set(...,
                           yardstick::roc_auc,
@@ -39,8 +42,9 @@ mset <- function(mode = "C", ...) {
                           )
   }
   metrics
-
 }
+
+
 ############################################################
 
 
@@ -213,8 +217,8 @@ rmsle.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
     metric_nm = "rmsle",
     metric_fn = rmsle_vec,
     data = data,
-    truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    truth = !!rlang::enquo(truth),
+    estimate = !!rlang::enquo(estimate),
     na_rm = na_rm,
     ...
   )
@@ -322,8 +326,8 @@ g_mean.data.frame <- function(data,
     metric_nm = "g_mean",
     metric_fn = g_mean_vec,
     data = data,
-    truth = !! enquo(truth),
-    estimate = !! enquo(estimate),
+    truth = !! rlang::enquo(truth),
+    estimate = !!rlang::enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
