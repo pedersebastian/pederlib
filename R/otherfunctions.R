@@ -5,6 +5,26 @@ read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
   csv
 }
 
+##########
+startup <- function(type = 1) {
+  if (type ==1) {
+    suppressPackageStartupMessages(library(tidyverse))
+    print("Tidyverse has been loaded")
+  }
+  else{
+  suppressPackageStartupMessages(library(baguette))
+  suppressPackageStartupMessages(library(discrim))
+  suppressPackageStartupMessages(library(tidymodels))
+  suppressPackageStartupMessages(library(tidyverse))
+  suppressPackageStartupMessages(library(finetune))
+  suppressPackageStartupMessages(library(textrecipes))
+  suppressPackageStartupMessages(library(stacks))
+  print("Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Textrecipes and Stacks has been loaded")
+  }
+}
+
+
+
 
 
 #############################

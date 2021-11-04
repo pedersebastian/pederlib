@@ -36,3 +36,4 @@ library(pederlib)
 |            | mode\_vec()         | find the mode from a vector                                                                                                                        |
 |            | sum\_fun()          | Summarize function, returns a tibble                                                                                                               |
 |            | use\_split()        | Like the package usemodels, this function returns standard for spiting data into testing and training. Also create re samples from the testing-set |
+|            | startup             | Attaches packages                                                                                                                                  |
