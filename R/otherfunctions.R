@@ -1,58 +1,48 @@
+### extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
+parse_geo <- function(tbl, geo_variable) {
+  suppressPackageStartupMessages(library(tidyverse))
+  tbl %>%
+    dyplyr:: mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
+                    new_geo = stringr::str_replace_all(new_geo, "[\r\n]",""),
+                    new_geo = stringr::str_replace_all(new_geo,"^.*\\(", ""),
+                    longitude = readr::parse_number(new_geo),
+                    latitude = stringr::str_remove(new_geo, ".*\\s"),
+                    latitude = readr::parse_number(latitude),
+                    dyplyr::across(c(latitude, longitude),~ifelse(stringr::str_detect({{geo_variable}},"\\(")==FALSE, NA,.)),
+                    dyplyr::across(c(latitude, longitude), ~ifelse(.==0, NA,.))) %>%
+
+    dyplyr::select(-new_geo)
+}
+
+
+
 ###Read csv with encoding from ssb, london etc..
+
 read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
   csv <- vroom::vroom(file, skip = skip, locale = vroom::locale(encoding = encoding), ...)
   csv
 }
 
 ##########
-startup <- function(type = 1, paralell = TRUE) {
+startup <- function(type = 1) {
   if (type ==1) {
     suppressPackageStartupMessages(library(tidyverse))
-    suppressPackageStartupMessages(library(lubridate))
-    suppressPackageStartupMessages(library(broom))
-
-    mes <- paste0("Tidyverse, Lubridate and Broom, has been loaded")
+    print("Tidyverse has been loaded")
   }
   else{
   suppressPackageStartupMessages(library(baguette))
-  suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(discrim))
   suppressPackageStartupMessages(library(tidymodels))
   suppressPackageStartupMessages(library(tidyverse))
   suppressPackageStartupMessages(library(finetune))
   suppressPackageStartupMessages(library(textrecipes))
   suppressPackageStartupMessages(library(stacks))
-  suppressPackageStartupMessages(library(themis))
-
-  mes <- paste0("Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Lubridate, Textrecipes and Stacks has been loaded" )
-  if (paralell) {
-    doParallel::registerDoParallel(cores = 8)
-    mes  <- paste0(mes, "\n", "Parallel processing has been initiated")
+  print("Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Textrecipes and Stacks has been loaded")
   }
-  }
-
-  theme_set(theme_center())
-  mes <- paste0(mes, "\n", "Theme set to theme_center")
-  cat(mes)
-  invisible(NULL)
-
 }
 
-#### extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
-parse_geo <- function(tbl, geo_variable) {
-  suppressPackageStartupMessages(library(tidyverse))
-  tbl %>%
-    dyplyr:: mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
-           new_geo = stringr::str_replace_all(new_geo, "[\r\n]",""),
-           new_geo = stringr::str_replace_all(new_geo,"^.*\\(", ""),
-           longitude = readr::parse_number(new_geo),
-           latitude = stringr::str_remove(new_geo, ".*\\s"),
-           latitude = readr::parse_number(latitude),
-           dyplyr::across(c(latitude, longitude),~ifelse(stringr::str_detect({{geo_variable}},"\\(")==FALSE, NA,.)),
-           dyplyr::across(c(latitude, longitude), ~ifelse(.==0, NA,.))) %>%
 
-    dyplyr::select(-new_geo)
-}
+
 
 
 #############################
