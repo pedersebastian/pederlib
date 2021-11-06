@@ -36,4 +36,5 @@ library(pederlib)
 |            | mode\_vec()         | find the mode from a vector                                                                                                                        |
 |            | sum\_fun()          | Summarize function, returns a tibble                                                                                                               |
 |            | use\_split()        | Like the package usemodels, this function returns standard for spiting data into testing and training. Also create re samples from the testing-set |
-|            | startup             | Attaches packages                                                                                                                                  |
+|            | startup             | Attaches packages (1 is tidyverse/lubridate, other is for machinelearning), Paralell proc is TRUE as defualt                                       |
+|            | parse\_geo          | Parse latitude and longitude if a tibble only got geoinformation like “POINT (-90.106 35.038)”                                                     |
