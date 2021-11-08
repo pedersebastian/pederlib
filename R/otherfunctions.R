@@ -2,16 +2,16 @@
 parse_geo <- function(tbl, geo_variable) {
   suppressPackageStartupMessages(library(tidyverse))
   tbl %>%
-    dyplyr:: mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
+    dplyr::mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
                     new_geo = stringr::str_replace_all(new_geo, "[\r\n]",""),
                     new_geo = stringr::str_replace_all(new_geo,"^.*\\(", ""),
                     longitude = readr::parse_number(new_geo),
                     latitude = stringr::str_remove(new_geo, ".*\\s"),
                     latitude = readr::parse_number(latitude),
-                    dyplyr::across(c(latitude, longitude),~ifelse(stringr::str_detect({{geo_variable}},"\\(")==FALSE, NA,.)),
-                    dyplyr::across(c(latitude, longitude), ~ifelse(.==0, NA,.))) %>%
+                    dplyr::across(c(latitude, longitude),~ifelse(stringr::str_detect({{geo_variable}},"\\(")==FALSE, NA,.)),
+                    dplyr::across(c(latitude, longitude), ~ifelse(.==0, NA,.))) %>%
 
-    dyplyr::select(-new_geo)
+    dplyr::select(-new_geo)
 }
 
 
@@ -24,10 +24,11 @@ read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
 }
 
 ##########
-startup <- function(type = 1) {
+startup <- function(type = 1, paralell = TRUE) {
   if (type ==1) {
     suppressPackageStartupMessages(library(tidyverse))
-    print("Tidyverse has been loaded")
+    suppressPackageStartupMessages(library(lubridate))
+   mes <- "Tidyverse and Lubridate has been loaded"
   }
   else{
   suppressPackageStartupMessages(library(baguette))
@@ -37,8 +38,17 @@ startup <- function(type = 1) {
   suppressPackageStartupMessages(library(finetune))
   suppressPackageStartupMessages(library(textrecipes))
   suppressPackageStartupMessages(library(stacks))
-  print("Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Textrecipes and Stacks has been loaded")
+  suppressPackageStartupMessages(library(lubridate))
+  suppressPackageStartupMessages(library(themis))
+  mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded"
   }
+
+  if (paralell) {
+    mes <- paste0(mes, "\n", "Parallel processing has been initiated")
+    doParallel::registerDoParallel(cores = 8)
+  }
+  cat(mes)
+  invisible(NULL)
 }
 
 
