@@ -187,6 +187,61 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
 #use_split(ti, strata = y,)
 
 #ti <- tibble(x = 1:10, y = 1:10)
+
+#### juice
+
+juice <- function(prepped_rec) {
+  recipes::bake(prepped_rec, new_data = NULL)
+}
+
+
+## "auto"plot for workflowsets
+# TO DO ta med alle, også facets?
+
+wfs_autoplot <- function(traind_workflowset, metric = "roc_auc", n=1,...) {
+
+
+  p_df  <-
+    collect_metrics(traind_workflowset) %>%
+    separate(wflow_id, into = c("recipe", "model_type"), sep = "_", remove = F, extra = "merge") %>%
+    filter(.metric == metric) %>%
+    group_by(wflow_id) %>%
+    arrange(desc(mean)) %>%
+    slice_head(n = n) %>%
+    group_by(model) %>%
+    select(-.config) %>%
+    distinct() %>%
+    ungroup() %>%
+    mutate(workflow_rank =  row_number(-mean),
+           .metric = str_to_upper(.metric),
+           .metric = case_when(.metric == "ROC_AUC"~"Area Under the Receiver Operating Characteristics curve (ROC AUC)",
+                               .metric == "RMSE"~"Root Mean Square Error (RMSE)",
+                               .metric == "SPEC"~"Specificity",
+                               .metric == "SENS"~"Sensitivity",
+                               .metric == "MN_LOG_LOSS"~"Mean log loss",
+                               .metric == "RSQ"~"R-Squared",
+                               .metric == "MAE"~"Mean absolutt error",
+                               .metric == "MASE"~"Mean absolutt squared error",
+                               TRUE~.metric),
+
+           .metric = str_replace_all(.metric, "\\_", " "),
+    )
+
+  p <- p_df %>%
+    ggplot(aes(x=workflow_rank, y = mean, shape = recipe)) +
+    geom_errorbar(aes(ymin = mean-std_err, ymax = mean+std_err), color = "gray50", lty = 2, width = 0.4) +
+    geom_point(size = 5, aes(color = model_type)) +
+    labs(title = "Performance Comparison of Workflow Sets", x = "Workflow Rank", y = glue::glue("{p_df$.metric}"), color = "Model Types", shape = "Recipes")  +
+    scale_x_continuous(breaks  = scales::pretty_breaks(), limits = c(0,NA)) + scale_y_continuous(labels = pederlib::komma())
+
+  return(p)
+}
+
+
+
+
+
+
 #######Custom metrics
 
 ##RMSLE - root mean squared log error

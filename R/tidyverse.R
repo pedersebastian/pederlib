@@ -93,11 +93,11 @@ theme_center <- function(base_size = 11,
 #########################
 
 komma <- function(...) {
-  scales::comma_format(decimal.mark = ",", ...)
+  scales::comma_format(decimal.mark = ",", big.mark = "." ,...)
 }
 
 prosent <- function(...) {
-  scales::percent_format(decimal.mark = ",", ...)
+  scales::percent_format(decimal.mark = ",", big.mark = "." ,...)
 }
 
 

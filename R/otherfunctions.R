@@ -25,6 +25,7 @@ read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
 
 ##########
 startup <- function(type = 1, paralell = TRUE) {
+
   if (type ==1) {
     suppressPackageStartupMessages(library(tidyverse))
     suppressPackageStartupMessages(library(lubridate))
@@ -40,6 +41,7 @@ startup <- function(type = 1, paralell = TRUE) {
   suppressPackageStartupMessages(library(stacks))
   suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(themis))
+  suppressPackageStartupMessages(library(pederlib))
   mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded"
   }
 
@@ -47,6 +49,8 @@ startup <- function(type = 1, paralell = TRUE) {
     mes <- paste0(mes, "\n", "Parallel processing has been initiated")
     doParallel::registerDoParallel(cores = 8)
   }
+  theme_set(theme_center())
+  mes <- paste0(mes, "\nTheme set to theme_center")
   cat(mes)
   invisible(NULL)
 }
