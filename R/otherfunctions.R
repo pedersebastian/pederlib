@@ -25,11 +25,11 @@ read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
 
 ##########
 startup <- function(type = 1, paralell = TRUE) {
-
+  suppressPackageStartupMessages(library(pederlib))
   if (type ==1) {
     suppressPackageStartupMessages(library(tidyverse))
     suppressPackageStartupMessages(library(lubridate))
-   mes <- "Tidyverse and Lubridate has been loaded"
+   mes <- "Tidyverse and Lubridate has been loaded."
   }
   else{
   suppressPackageStartupMessages(library(baguette))
@@ -41,16 +41,18 @@ startup <- function(type = 1, paralell = TRUE) {
   suppressPackageStartupMessages(library(stacks))
   suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(themis))
-  suppressPackageStartupMessages(library(pederlib))
-  mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded"
+  tidymodels::tidymodels_prefer()
+  mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded."
   }
 
   if (paralell) {
-    mes <- paste0(mes, "\n", "Parallel processing has been initiated")
+    mes <- paste0(mes, "\n", "Parallel processing has been initiated.")
     doParallel::registerDoParallel(cores = 8)
   }
   theme_set(theme_center())
-  mes <- paste0(mes, "\nTheme set to theme_center")
+  update_geom_defaults("rect", list(fill="#1d3557", alpha =0.9))
+  update_geom_defaults("point", list(color="#1d3557", alpha =0.9))
+  mes <- paste0(mes, "\nTheme set to theme_center.\nGeom defaults updated.")
   cat(mes)
   invisible(NULL)
 }
