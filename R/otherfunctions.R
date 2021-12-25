@@ -25,7 +25,7 @@ read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
 
 ##########
 startup <- function(type = 1, paralell = TRUE) {
-  suppressPackageStartupMessages(library(pederlib))
+
   if (type ==1) {
     suppressPackageStartupMessages(library(tidyverse))
     suppressPackageStartupMessages(library(lubridate))
@@ -41,7 +41,6 @@ startup <- function(type = 1, paralell = TRUE) {
   suppressPackageStartupMessages(library(stacks))
   suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(themis))
-  tidymodels::tidymodels_prefer()
   mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded."
   }
 
@@ -49,7 +48,10 @@ startup <- function(type = 1, paralell = TRUE) {
     mes <- paste0(mes, "\n", "Parallel processing has been initiated.")
     doParallel::registerDoParallel(cores = 8)
   }
+  suppressPackageStartupMessages(library(pederlib))
   theme_set(theme_center())
+
+  tidyverse::tidyverse_conflicts()
   update_geom_defaults("rect", list(fill="#1d3557", alpha =0.9))
   update_geom_defaults("point", list(color="#1d3557", alpha =0.9))
   mes <- paste0(mes, "\nTheme set to theme_center.\nGeom defaults updated.")
@@ -57,6 +59,25 @@ startup <- function(type = 1, paralell = TRUE) {
   invisible(NULL)
 }
 
+
+########3SITEMAP
+
+sitemap <- function(url) {
+  rs <-
+    read_xml(url)%>%
+    as.character()%>%
+    as_tibble()%>%
+    separate_rows(value, sep = "\\n")%>%
+    filter(str_detect(value, "<loc>|<lastmod>"))%>%
+    mutate(value = str_squish(value),
+           type = ifelse(str_detect(value, "^<loc>"), "link", "last_mod"))%>%
+    group_by(type)%>%
+    mutate(id = row_number(),
+           value = str_remove_all(value, "<loc>|</loc>|<lastmod>|</lastmod>"))%>%
+    ungroup()%>%
+    pivot_wider(names_from = type, values_from = value)
+  return(rs)
+}
 
 
 
