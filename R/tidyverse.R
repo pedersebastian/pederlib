@@ -32,7 +32,7 @@ theme_pedr <- function(base_size = 11,
     family = "BentonSans Regular"
   )
   ret$strip.background <-  ggplot2::element_rect(
-    fill = "gray80",
+    fill = "gray90",
     color = NA,
     size = NULL,
     linetype = NULL
@@ -70,7 +70,7 @@ theme_center <- function(base_size = 11,
   )
 
   ret$strip.background <-  ggplot2::element_rect(
-    fill = "gray80",
+    fill = "gray90",
     color = NA,
     size = NULL,
     linetype = NULL

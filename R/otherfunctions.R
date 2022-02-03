@@ -31,9 +31,15 @@ startup <- function(type = 1, paralell = TRUE) {
     suppressPackageStartupMessages(library(lubridate))
    mes <- "Tidyverse and Lubridate has been loaded."
   }
+  else if (type==3) {
+    suppressPackageStartupMessages(library(tidyverse))
+    suppressPackageStartupMessages(library(lubridate))
+    suppressPackageStartupMessages(library(rvest))
+    mes <- "Tidyverse, Lubridate and Rvest has been loaded."
+  }
   else{
   suppressPackageStartupMessages(library(baguette))
-  suppressPackageStartupMessages(library(discrim))
+ # suppressPackageStartupMessages(library(discrim))
   suppressPackageStartupMessages(library(tidymodels))
   suppressPackageStartupMessages(library(tidyverse))
   suppressPackageStartupMessages(library(finetune))
@@ -41,7 +47,7 @@ startup <- function(type = 1, paralell = TRUE) {
   suppressPackageStartupMessages(library(stacks))
   suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(themis))
-  mes <- "Baguette, Discrim, Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded."
+  mes <- " Tidymodels, Tidyverse, Finetune, Themis, Lubridate, Textrecipes and Stacks has been loaded.\n Baguette, Discrim commented out"
   }
 
   if (paralell) {
@@ -80,6 +86,12 @@ sitemap <- function(url) {
 }
 
 
+###### prosent
+
+pct <- function(tbl) {
+  tbl %>%
+    mutate(pct = n/sum(n, na.rm = TRUE))
+}
 
 
 #############################

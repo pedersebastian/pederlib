@@ -45,8 +45,8 @@ mset <- function(mode = "C", ...) {
 }
 
 
-ctrl <- function(...) {
-  ctrl <- finetune::control_race(verbose_elim = TRUE, save_pred = T,...)
+ctrl <- function(save_workflow = FALSE,...) {
+  ctrl <- finetune::control_race(verbose_elim = TRUE, save_pred = T, save_workflow = save_workflow, ...)
   ctrl
 }
 
@@ -195,8 +195,9 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
 
 #### juice
 
-juice <- function(prepped_rec) {
-  recipes::bake(prepped_rec, new_data = NULL)
+juice <- function(prepped_rec, new_data = NULL) {
+  require(recipes)
+  recipes::bake(prepped_rec, new_data = new_data,...)
 }
 
 
