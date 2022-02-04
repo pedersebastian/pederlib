@@ -195,7 +195,7 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
 
 #### juice
 
-juice <- function(prepped_rec, new_data = NULL) {
+juice <- function(prepped_rec, new_data = NULL,...) {
   require(recipes)
   recipes::bake(prepped_rec, new_data = new_data,...)
 }
