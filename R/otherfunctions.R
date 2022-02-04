@@ -1,3 +1,8 @@
+##
+
+'%notin%' <- Negate('%in%')
+
+
 
 ### extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
 parse_geo <- function(tbl, geo_variable) {
@@ -178,8 +183,8 @@ mode_vec <- function(x, na.rm = FALSE) {
   if(any(is.na(x))){
 
     if(na.rm ==FALSE){
-      stop("Vector contains NA")
-
+      rlang::inform("Vector contains NA")
+      x = NA
     }
     else {
       x = stats::na.omit(x)
@@ -191,8 +196,6 @@ mode_vec <- function(x, na.rm = FALSE) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
-
-
 
 
 ############################################################
