@@ -6,7 +6,7 @@
 
 ### extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
 parse_geo <- function(tbl, geo_variable) {
-  suppressPackageStartupMessages(library(tidyverse))
+  require(tidyverse)
   tbl %>%
     dplyr::mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
                     new_geo = stringr::str_replace_all(new_geo, "[\r\n]",""),
@@ -121,7 +121,7 @@ pct <- function(tbl) {
 
 sum_fun <- function(x, na.rm = FALSE) {
   if(!is.numeric(x)){
-    stop("Imput must be numberic")
+    stop("Input must be numeric")
   }
 
   if(any(is.na(x))){
