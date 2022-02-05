@@ -52,7 +52,8 @@ startup <- function(type = 1, paralell = TRUE) {
   suppressPackageStartupMessages(library(stacks))
   suppressPackageStartupMessages(library(lubridate))
   suppressPackageStartupMessages(library(themis))
-  mes <- "Tidymodels, Tidyverse, Finetune, Baguette, Themis, Lubridate, Textrecipes and Stacks has been loaded."
+  suppressPackageStartupMessages(library(multilevelmod))
+  mes <- "Tidymodels, Tidyverse, Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks and Multilevelmod has been loaded."
   }
 
   if (paralell) {
