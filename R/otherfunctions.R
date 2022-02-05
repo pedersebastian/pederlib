@@ -94,9 +94,9 @@ sitemap <- function(url) {
 
 ###### prosent
 
-pct <- function(tbl) {
+pct <- function(tbl, na.rm = TRUE) {
   tbl %>%
-    mutate(pct = n/sum(n, na.rm = TRUE))
+    mutate(pct = n/sum(n, na.rm = na.rm))
 }
 
 

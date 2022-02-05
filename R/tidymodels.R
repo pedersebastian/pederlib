@@ -19,7 +19,7 @@ mset <- function(mode = "C", ...) {
 
 
   if (!mode %in% c("C", "R")) {
-    rlang::inform(message = "Mode must be classification(C) or regression(R) for standard setup\nYou can still specify your metric using ...\n\n")
+    rlang::inform(message = "Mode must be classification(C) or regression(R) for standard setup\nYou can still specify your metric using ...\n\n", body = ":)")
     metrics <- yardstick::metric_set(...)
   }
 

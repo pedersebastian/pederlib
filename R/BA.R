@@ -1,3 +1,10 @@
+#' @importFrom stats lm
+#' @importFrom broom tidy glance augment
+#' @importFrom tibble tibble add_column
+#' @importFrom magrittr %>%
+#' @import ggplot2
+
+
 ### Ny Bland-altman plot ( my version of deepankardatta/blandr package
 min_BA <-function (statistics.results,
                    method1name = "Method 1",
@@ -102,4 +109,89 @@ min_BA <-function (statistics.results,
                                               se = plotProportionalBias.se)
   }
   return(ba.plot)
+}
+
+
+##############
+tidy.blandr <- function(x,
+                        conf.int = FALSE,
+                        regression_equation = FALSE) {
+
+
+  rs <- tibble::tibble(bias = x$bias,
+                       bias_sd = x$biasStdDev,
+                       bias_se = x$biasSEM,
+                       upper_LoA = x$upperLOA,
+                       lower_LoA = x$lowerLOA,
+                       regression_fixed_slope = x$regression.fixed.slope,
+                       regression_fixed_intercept = x$regression.fixed.intercept
+  )
+
+  if (conf.int) {
+    rs <-   rs %>%
+      tibble::add_column(
+        bias_conf_low = x$biasLowerCI, .after = "bias") %>%
+      tibble::add_column(
+        bias_conf_high = x$biasUpperCI, .after = "bias_conf_low") %>%
+      tibble::add_column(
+        upper_LoA_conf_low = x$upperLOA_lowerCI, .after = "upper_LoA")%>%
+      tibble::add_column(
+        upper_LoA_conf_high = x$upperLOA_upperCI, .after = "upper_LoA_conf_low") %>%
+      tibble::add_column(
+        lower_LoA_conf_low = x$lowerLOA_lowerCI, .after = "lower_LoA") %>%
+      tibble::add_column(
+        lower_LoA_conf_high = x$lowerLOA_upperCI, .after = "lower_LoA_conf_low"
+      )
+
+    if (regression_equation) {
+      rs <- rs %>%
+        tibble::add_column(
+          regression_equation = x$regression.equation, .before = regression_fixed_slope
+        )
+
+    }
+
+  }
+
+  return(rs)
+
+}
+
+#### Augment
+
+# Example
+# rs %>%
+#   augment(new_data = NULL)
+
+augment.blandr <- function(x, new_data = NULL) {
+
+  if (!is.null(new_data)) {
+    rlang::abort(
+      "Blandr cannot be augmented on new data",
+      body = "Please leave new_data as NULL",
+    )
+  }
+  rs <-  tibble::tibble(
+    method_1 = x$method1,
+    method_2 = x$method2,
+    differences = x$differences,
+    mean = x$means,
+    proportion = x$proportion
+  )
+  return(rs)
+
+}
+
+################# Glance
+#Example
+#glance(rs)
+
+glance <- function(x,...) {
+  model <- lm(x$differences ~ x$means)
+
+  rs <- broom::glance(model, ...)
+
+  rlang::inform("Caution:",
+                body = "Glanced is based on the lm-object of differences ~ means")
+  return(rs)
 }
