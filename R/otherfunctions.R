@@ -4,7 +4,19 @@
 
 
 
-### extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
+
+###
+#' Parsing lat and lng
+#' @description extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
+#' !!todo: Velge om det er lat eller long først
+#' @param tbl a tibble
+#' @param geo_variable variable navn with the lng and lat
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 parse_geo <- function(tbl, geo_variable) {
   require(tidyverse)
   tbl %>%
@@ -24,12 +36,39 @@ parse_geo <- function(tbl, geo_variable) {
 
 ###Read csv with encoding from ssb, london etc..
 
-read_csv_europe <- function(file, skip = 0, encoding = "CP1252",...) {
-  csv <- vroom::vroom(file, skip = skip, locale = vroom::locale(encoding = encoding), ...)
-  csv
+#' Read csv from european encoding
+#'
+#' @param file Path to file
+#' @param skip Skipping rows
+#' @param encoding encoding (CP1252 is defalt)
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+read_csv_europe <- function(file,
+                            skip = 0,
+                            encoding = "CP1252",
+                            ...) {
+  csv <-
+    vroom::vroom(file, skip = skip, locale = vroom::locale(encoding = encoding), ...)
+
+  return(csv)
 }
 
 ##########
+#' Loading packages
+#'
+#' @param type type startup
+#' @param paralell if parralell
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 startup <- function(type = 1, paralell = TRUE) {
 
   if (type ==1) {
@@ -74,6 +113,15 @@ startup <- function(type = 1, paralell = TRUE) {
 
 ########3SITEMAP
 
+#' parsing sitemaps
+#'
+#' @param url sitemap.xml url
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 sitemap <- function(url) {
   rs <-
     read_xml(url)%>%
@@ -94,6 +142,16 @@ sitemap <- function(url) {
 
 ###### prosent
 
+#' Prosent
+#'
+#' @param tbl  a tbble
+#' @param na.rm NA-removing of the sum part
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 pct <- function(tbl, na.rm = TRUE) {
   tbl %>%
     mutate(pct = n/sum(n, na.rm = na.rm))
@@ -101,24 +159,40 @@ pct <- function(tbl, na.rm = TRUE) {
 
 
 #############################
-## This is a summarize function, and return to into a tibble
-#
-# a <- seq(1,9,2)
-# b <- rep(letters)
-# c <- rep(c(a,NA),10)
-# d <- c(1,2,3,3,20,31)
-# e <- c(NA,NA,NA,NA,3,3,2)
-# f = c( 5, 10, 17, 24, 30)
-# e <- rnorm(1e4)
-# sum_fun(a)
-# sum_fun(b)
-# sum_fun(c, na.rm = TRUE)
-# sum_fun(d)
-# sum_fun(e, na.rm = TRUE)
-# sum_fun(f)
-# sum_fun(e)
 
-
+#' This is a summarize function, and return to into a tibble
+#' @description
+#' * Mode
+#' * Median
+#' * Arithmetic mean
+#' * Harmonic mean
+#' * Geometric mean
+#' * SD
+#' * SE
+#' * TODO: Generalized means, Interquartile mean,Pythagorean mean
+#'
+#' @param x A numeric vector
+#' @param na.rm If NA remove
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'a <- seq(1,9,2)
+#'b <- rep(letters)
+#'c <- rep(c(a,NA),10)
+#'d <- c(1,2,3,3,20,31)
+#'e <- c(NA,NA,NA,NA,3,3,2)
+#'f <- c( 5, 10, 17, 24, 30)
+#'e <- rnorm(1e4)
+#'sum_fun(a)
+#'sum_fun(b)
+#'sum_fun(c, na.rm = TRUE)
+#'sum_fun(d)
+#'sum_fun(e, na.rm = TRUE)
+#'sum_fun(f)
+#'sum_fun(e)
+#'
 sum_fun <- function(x, na.rm = FALSE) {
   if(!is.numeric(x)){
     stop("Input must be numeric")
@@ -159,6 +233,7 @@ sum_fun <- function(x, na.rm = FALSE) {
   ###SDV
   i= 0
   sdv = vector(mode ="numeric", length = length_m)
+  #Burde vært for-loop
   while (i<length_m+1) {
     sdv[i] = (x[i]- (sum(x)/length_m))^2
     i = i+1
@@ -176,6 +251,16 @@ sum_fun <- function(x, na.rm = FALSE) {
 }
 ######function for finding mode in a numeric vector
 
+#' Mode
+#'
+#' @param x Vector to find mode
+#' @param na.rm na rm
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 mode_vec <- function(x, na.rm = FALSE) {
   if(!is.numeric(x)){
     stop("Imput must be numberic")
@@ -197,12 +282,3 @@ mode_vec <- function(x, na.rm = FALSE) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
-
-
-############################################################
-# Some useful keyboard shortcuts for package authoring:    #
-#                                                          #
-#   Install Package:           'Cmd + Shift + B'           #
-#   Check Package:             'Cmd + Shift + E'           #
-#   Test Package:              'Cmd + Shift + T'           #
-############################################################

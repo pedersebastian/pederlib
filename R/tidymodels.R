@@ -4,6 +4,16 @@
 ########
 #Metrics for regression and classification
 
+#' Title
+#'
+#' @param mode Classification of regression (C or R)
+#' @param ...  passed on the yardstick::metric_set()
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 mset <- function(mode = "C", ...) {
   arguments <- match.call()
   arguments <- as.list(arguments)
@@ -45,6 +55,16 @@ mset <- function(mode = "C", ...) {
 }
 
 
+#' control function
+#'
+#' @param save_workflow save workflow
+#' @param ... passed on to control race
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 ctrl <- function(save_workflow = FALSE,...) {
   ctrl <- finetune::control_race(verbose_elim = TRUE, save_pred = T, save_workflow = save_workflow, ...)
   ctrl
@@ -53,26 +73,34 @@ ctrl <- function(save_workflow = FALSE,...) {
 ############################################################
 
 
-# > use_split(mtcars, mpg)
-
-# set.seed(540)
-# mtcars_split<-
-#   initial_split(mtcars, strata = mpg)
-#
-# mtcars_train<-
-#   training(mtcars_split)
-# mtcars_test<-
-#   testing(mtcars_split)
-#
-#
-# set.seed(725)
-# mtcars_folds<-
-#   vfold_cv(mtcars_train, strata = mpg, v = 10)
-
-
-
-#mset("C", first = recall)
-
+#' Set of for resampling
+#'
+#' @param data  Data
+#' @param strata Strata variable-navn
+#' @param resamples Type of resampling method
+#' @param number_folds num of resam
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'use_split(mtcars, mpg) returns:
+#'library(tidymodels)
+#'
+#'set.seed(439)
+#'mtcars_split<-
+#'  initial_split(mtcars, strata = mpg)
+#'
+#'mtcars_train<-
+#'  training(mtcars_split)
+#'mtcars_test<-
+#'  testing(mtcars_split)
+#'
+#'
+#'set.seed(274)
+#'mtcars_folds<-
+#'  bootstraps(mtcars_train, strata = mpg, times = 25)
+#'
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL) {
 
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
@@ -186,15 +214,17 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds =NULL)
 }
 
 
-
-
-
-#use_split(ti, strata = y,)
-
-#ti <- tibble(x = 1:10, y = 1:10)
-
-#### juice
-
+#' Juice
+#'
+#' @param prepped_rec a prepped recipe
+#' @param new_data new data ?
+#' @param ... passed on to bake such as composition
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 juice <- function(prepped_rec, new_data = NULL,...) {
   require(recipes)
   recipes::bake(prepped_rec, new_data = new_data,...)
@@ -204,6 +234,20 @@ juice <- function(prepped_rec, new_data = NULL,...) {
 ## "auto"plot for workflowsets
 # TO DO ta med alle, også facets?
 
+#' autoplot for workflowsets
+#'
+#' @param trained_workflowset  xx
+#' @param metric  xx
+#' @param n xx
+#' @param all_metrics xx
+#' @param rank_by_metric xx
+#' @param ... xx
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 wfs_autoplot <- function(trained_workflowset, metric = "roc_auc", n=1, all_metrics = TRUE, rank_by_metric = FALSE, ...) {
 
   minimize <- c("mn_log_loss", "rmse", "mae", "mape", "mase")
@@ -306,9 +350,60 @@ wfs_autoplot <- function(trained_workflowset, metric = "roc_auc", n=1, all_metri
 
 ### date
 
-dates <- function(...) {
-  dates <- c("year", "month", "week", "dow", "doy",...)
-  dates
+#' Dates
+#'
+#' @param year add year (default)
+#' @param month add month (default)
+#' @param week add week (default)
+#' @param dow add day of the week (default)
+#' @param doy add day of the year (default)
+#' @param decimal add decimal
+#' @param quarter add quarter
+#' @param semester add semester
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+
+dates <- function(year = TRUE,
+                  month = TRUE,
+                  week = TRUE,
+                  dow = TRUE,
+                  doy = TRUE,
+                  decimal = FALSE,
+                  quarter = FALSE,
+                  semester = FALSE) {
+
+  dates <- vector("character")
+
+  if (year) {
+    dates <- append(dates, "year")
+  }
+  if (month) {
+    dates <- append(dates, "month")
+  }
+  if (week) {
+    dates <- append(dates, "week")
+  }
+  if (dow) {
+    dates <- append(dates, "dow")
+  }
+  if (doy) {
+    dates <- append(dates, "doy")
+  }
+  if (decimal) {
+    dates <- append(dates, "decimal")
+  }
+  if (quarter) {
+    dates <- append(dates, "quarter")
+  }
+  if (semester) {
+    dates <- append(dates, "semester")
+  }
+
+  return(dates)
 }
 
 
@@ -333,6 +428,16 @@ rmsle_vec <- function(truth, estimate, na_rm = TRUE, ...) {
   )
 }
 
+#' root mean square log error
+#'
+#' @param data data
+#' @param ... needs truth and estimate
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 rmsle <- function(data, ...) {
   UseMethod("rmsle")
 }
@@ -435,6 +540,16 @@ g_mean_multiclass <- function(data, estimator) {
 }
 
 
+#' Title
+#'
+#' @param data data
+#' @param ... ..
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 g_mean <- function(data, ...) {
   UseMethod("g_mean")
 }

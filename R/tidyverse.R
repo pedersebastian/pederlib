@@ -1,20 +1,31 @@
 
-
-##################################
-
-###  theme_pedr
-# *** Based on theme_minimal
-# *** Font is `BentonSans Regular`, and must be installed first
-# *** title, subtitle are centered
-
-##theme_center
-# *** Based on theme_minimal
-# *** title, subtitle are centered
-
-##library(ggplot2)
-# faithfuld %>%
-#    ggplot(aes(density)) + geom_histogram()+ scale_x_continuous(labels = komma()) + theme_pedr()+ labs(title = "This is a title", subtitle = "This is a subtitle")
-
+#' Theme Peder
+#'
+#'@description
+#' Based on theme_minimal\n
+#'Font is `BentonSans Regular`, and must be installed first\n
+#'title, subtitle are centered
+#'
+#' @param base_size b
+#' @param strip_text_size b
+#' @param strip_text_margin b
+#' @param subtitle_size b
+#' @param subtitle_margin b
+#' @param plot_title_size b
+#' @param plot_title_margin b
+#' @param ... x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' faithful %>%
+#' ggplot(aes(density)) +
+#' geom_histogram() +
+#' scale_x_continuous(labels = komma()) +
+#' theme_pedr() +
+#' labs(title = "This is a title", subtitle = "This is a subtitle")
 
 theme_pedr <- function(base_size = 11,
                        strip_text_size = 12,
@@ -23,6 +34,7 @@ theme_pedr <- function(base_size = 11,
                        subtitle_margin = 10,
                        plot_title_size = 16,
                        plot_title_margin = 10,
+                       strip_color = "gray90",
                        ...) {
   ret <- ggplot2::theme_minimal(base_family = "BentonSans Regular",
                                 base_size = base_size, ...)
@@ -32,7 +44,7 @@ theme_pedr <- function(base_size = 11,
     family = "BentonSans Regular"
   )
   ret$strip.background <-  ggplot2::element_rect(
-    fill = "gray90",
+    fill = strip_color,
     color = NA,
     size = NULL,
     linetype = NULL
@@ -53,6 +65,27 @@ theme_pedr <- function(base_size = 11,
 }
 
 #############################################################################
+#' Title
+#'
+#'@description #theme_center\n
+#'Based on theme_minimal\n
+#'title, subtitle are centered \n
+
+#'
+#' @param base_size x
+#' @param strip_text_size x
+#' @param strip_text_margin x
+#' @param subtitle_size x
+#' @param subtitle_margin x
+#' @param plot_title_size x
+#' @param plot_title_margin x
+#' @param ... x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 theme_center <- function(base_size = 11,
                          strip_text_size = 12,
                          strip_text_margin = 5,
@@ -60,17 +93,19 @@ theme_center <- function(base_size = 11,
                          subtitle_margin = 10,
                          plot_title_size = 16,
                          plot_title_margin = 10,
+                         strip_color = "gray90",
                          ...) {
   ret <- ggplot2::theme_minimal(base_family = NULL,
                                 base_size = base_size, ...)
   ret$strip.text <- ggplot2::element_text(
-    hjust = 0.5, size = strip_text_size,
+    hjust = 0.5,
+    size = strip_text_size,
     margin = ggplot2::margin(b = strip_text_margin),
     family = NULL
   )
 
   ret$strip.background <-  ggplot2::element_rect(
-    fill = "gray90",
+    fill = strip_color,
     color = NA,
     size = NULL,
     linetype = NULL
@@ -92,10 +127,28 @@ theme_center <- function(base_size = 11,
 
 #########################
 
+#' Title
+#'
+#' @param ... passed on to scales::comma_format
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 komma <- function(...) {
   scales::comma_format(decimal.mark = ",", big.mark = "." ,...)
 }
 
+#' Title
+#'
+#' @param ... passed on to scales::percent_format
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
 prosent <- function(...) {
   scales::percent_format(decimal.mark = ",", big.mark = "." ,...)
 }
