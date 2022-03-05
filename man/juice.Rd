@@ -19,6 +19,3 @@ juice(prepped_rec, new_data = NULL, ...)
 \description{
 Juice
 }
-\examples{
-
-}

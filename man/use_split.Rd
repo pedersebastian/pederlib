@@ -22,21 +22,21 @@ use_split(data, strata = NULL, resamples = NULL, number_folds = NULL)
 Set of for resampling
 }
 \examples{
-use_split(mtcars, mpg) returns:
+use_split(mtcars, mpg)
 library(tidymodels)
 
 set.seed(439)
-mtcars_split<-
- initial_split(mtcars, strata = mpg)
+mtcars_split <-
+  initial_split(mtcars, strata = mpg)
 
-mtcars_train<-
- training(mtcars_split)
-mtcars_test<-
- testing(mtcars_split)
+mtcars_train <-
+  training(mtcars_split)
+mtcars_test <-
+  testing(mtcars_split)
 
 
 set.seed(274)
-mtcars_folds<-
- bootstraps(mtcars_train, strata = mpg, times = 25)
+mtcars_folds <-
+  bootstraps(mtcars_train, strata = mpg, times = 25)
 
 }

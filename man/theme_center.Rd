@@ -37,10 +37,17 @@ theme_center(
 
 }
 \description{
-#theme_center\n
-Based on theme_minimal\n
-title, subtitle are centered \n
+#theme_center
+Based on theme_minimal
+title, subtitle are centered
 }
 \examples{
-
+library(ggplot2)
+data(faithful)
+faithful \%>\%
+  ggplot(aes(eruptions)) +
+  geom_histogram() +
+  scale_x_continuous(labels = komma()) +
+  theme_center() +
+  labs(title = "This is a title", subtitle = "This is a subtitle")
 }

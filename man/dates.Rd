@@ -38,6 +38,3 @@ dates(
 \description{
 Dates
 }
-\examples{
-
-}

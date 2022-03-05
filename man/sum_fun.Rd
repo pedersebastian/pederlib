@@ -15,29 +15,29 @@ sum_fun(x, na.rm = FALSE)
 
 }
 \description{
-* Mode
-* Median
-* Arithmetic mean
-* Harmonic mean
-* Geometric mean
-* SD
-* SE
-* TODO: Generalized means, Interquartile mean,Pythagorean mean
+\itemize{
+\item Mode
+\item Median
+\item Arithmetic mean
+\item Harmonic mean
+\item Geometric mean
+\item SD
+\item SE
+\item TODO: Generalized means, Interquartile mean,Pythagorean mean
+}
 }
 \examples{
-a <- seq(1,9,2)
-b <- rep(letters)
-c <- rep(c(a,NA),10)
-d <- c(1,2,3,3,20,31)
-e <- c(NA,NA,NA,NA,3,3,2)
-f <- c( 5, 10, 17, 24, 30)
+a <- seq(1, 9, 2)
+
+c <- rep(c(a, NA), 10)
+d <- c(1, 2, 3, 3, 20, 31)
+e <- c(NA, NA, NA, NA, 3, 3, 2)
+f <- c(5, 10, 17, 24, 30)
 e <- rnorm(1e4)
 sum_fun(a)
-sum_fun(b)
 sum_fun(c, na.rm = TRUE)
 sum_fun(d)
 sum_fun(e, na.rm = TRUE)
 sum_fun(f)
 sum_fun(e)
-
 }

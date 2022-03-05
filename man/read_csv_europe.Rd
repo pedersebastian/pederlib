@@ -13,7 +13,7 @@ read_csv_europe(file, skip = 0, encoding = "CP1252", ...)
 
 \item{encoding}{encoding (CP1252 is defalt)}
 
-\item{...}{}
+\item{...}{passed on to vroom::vroom}
 }
 \value{
 

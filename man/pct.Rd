@@ -17,6 +17,3 @@ pct(tbl, na.rm = TRUE)
 \description{
 Prosent
 }
-\examples{
-
-}

@@ -15,6 +15,3 @@ prosent(...)
 \description{
 Title
 }
-\examples{
-
-}

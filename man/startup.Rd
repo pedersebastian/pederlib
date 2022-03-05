@@ -4,7 +4,7 @@
 \alias{startup}
 \title{Loading packages}
 \usage{
-startup(type = 1, paralell = TRUE)
+startup(type = 1, paralell = FALSE)
 }
 \arguments{
 \item{type}{type startup}
@@ -19,4 +19,5 @@ Loading packages
 }
 \examples{
 
+pederlib::startup(1)
 }

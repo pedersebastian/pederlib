@@ -1,47 +1,11 @@
-##
-
-'%notin%' <- Negate('%in%')
-
-
-
-
-###
-#' Parsing lat and lng
-#' @description extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
-#' !!todo: Velge om det er lat eller long først
-#' @param tbl a tibble
-#' @param geo_variable variable navn with the lng and lat
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#'
-parse_geo <- function(tbl, geo_variable) {
-  require(tidyverse)
-  tbl %>%
-    dplyr::mutate(new_geo = stringr::str_remove_all({{geo_variable}},"[:alpha:]" ),
-                    new_geo = stringr::str_replace_all(new_geo, "[\r\n]",""),
-                    new_geo = stringr::str_replace_all(new_geo,"^.*\\(", ""),
-                    longitude = readr::parse_number(new_geo),
-                    latitude = stringr::str_remove(new_geo, ".*\\s"),
-                    latitude = readr::parse_number(latitude),
-                    dplyr::across(c(latitude, longitude),~ifelse(stringr::str_detect({{geo_variable}},"\\(")==FALSE, NA,.)),
-                    dplyr::across(c(latitude, longitude), ~ifelse(.==0, NA,.))) %>%
-
-    dplyr::select(-new_geo)
-}
-
-
-
-###Read csv with encoding from ssb, london etc..
+### Read csv with encoding from ssb, london etc..
 
 #' Read csv from european encoding
 #'
 #' @param file Path to file
 #' @param skip Skipping rows
 #' @param encoding encoding (CP1252 is defalt)
-#' @param ...
+#' @param ... passed on to vroom::vroom
 #'
 #' @return
 #' @export
@@ -69,30 +33,44 @@ read_csv_europe <- function(file,
 #'
 #' @examples
 #'
-startup <- function(type = 1, paralell = TRUE) {
-
-  if (type ==1) {
+#' pederlib::startup(1)
+startup <- function(type = 1, paralell = FALSE) {
+  if (!is.numeric(type)) {
+    rlang::abort("Type must be numeric")
+  }
+  if (type == 1) {
     suppressPackageStartupMessages(library(tidyverse))
     suppressPackageStartupMessages(library(lubridate))
-   mes <- "Tidyverse and Lubridate has been loaded."
-  }
-  else if (type==3) {
+    mes <- "Tidyverse and Lubridate has been loaded."
+  } else if (type == 3) {
     suppressPackageStartupMessages(library(tidyverse))
     suppressPackageStartupMessages(library(lubridate))
     suppressPackageStartupMessages(library(rvest))
     mes <- "Tidyverse, Lubridate and Rvest has been loaded."
-  }
-  else{
-  suppressPackageStartupMessages(library(baguette))
-  suppressPackageStartupMessages(library(tidymodels))
-  suppressPackageStartupMessages(library(tidyverse))
-  suppressPackageStartupMessages(library(finetune))
-  suppressPackageStartupMessages(library(textrecipes))
-  suppressPackageStartupMessages(library(stacks))
-  suppressPackageStartupMessages(library(lubridate))
-  suppressPackageStartupMessages(library(themis))
-  suppressPackageStartupMessages(library(multilevelmod))
-  mes <- "Tidymodels, Tidyverse, Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks and Multilevelmod has been loaded."
+  } else if (type == 4) {
+    suppressPackageStartupMessages(library(tidyverse))
+    suppressPackageStartupMessages(library(lubridate))
+    suppressPackageStartupMessages(library(tidymodels))
+    suppressPackageStartupMessages(library(psych))
+    suppressPackageStartupMessages(library(blandr))
+    suppressPackageStartupMessages(library(gtsummary))
+    suppressPackageStartupMessages(library(gt))
+    suppressPackageStartupMessages(library(blandaltmanR))
+    suppressPackageStartupMessages(library(irrCAC))
+    mes <- "Tidymodels, Tidyverse, Lubridate,  psych, blandr, gtsummary, gt, irrCAC, and blandaltmanR has been loaded."
+  } else {
+    suppressPackageStartupMessages(library(baguette))
+    suppressPackageStartupMessages(library(lubridate))
+    suppressPackageStartupMessages(library(tidymodels))
+    suppressPackageStartupMessages(library(tidyverse))
+    suppressPackageStartupMessages(library(finetune))
+    suppressPackageStartupMessages(library(textrecipes))
+    suppressPackageStartupMessages(library(stacks))
+    suppressPackageStartupMessages(library(lubridate))
+    suppressPackageStartupMessages(library(themis))
+    suppressPackageStartupMessages(library(multilevelmod))
+
+    mes <- "Tidymodels, Tidyverse, Lubridate,  Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks and Multilevelmod has been loaded."
   }
 
   if (paralell) {
@@ -100,44 +78,17 @@ startup <- function(type = 1, paralell = TRUE) {
     doParallel::registerDoParallel(cores = 8)
   }
   suppressPackageStartupMessages(library(pederlib))
-  theme_set(theme_center())
+  theme_set(pederlib::theme_center())
 
-  tidyverse::tidyverse_conflicts()
-  update_geom_defaults("rect", list(fill="#1d3557", alpha =0.9))
-  update_geom_defaults("point", list(color="#1d3557", alpha =0.9))
+
+  ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
+  ggplot2::update_geom_defaults("point", list(color = "#1d3557", alpha = 0.9))
   mes <- paste0(mes, "\nTheme set to theme_center.\nGeom defaults updated.")
   cat(mes)
   invisible(NULL)
 }
 
 
-########3SITEMAP
-
-#' parsing sitemaps
-#'
-#' @param url sitemap.xml url
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#'
-sitemap <- function(url) {
-  rs <-
-    read_xml(url)%>%
-    as.character()%>%
-    as_tibble()%>%
-    separate_rows(value, sep = "\\n")%>%
-    filter(str_detect(value, "<loc>|<lastmod>"))%>%
-    mutate(value = str_squish(value),
-           type = ifelse(str_detect(value, "^<loc>"), "link", "last_mod"))%>%
-    group_by(type)%>%
-    mutate(id = row_number(),
-           value = str_remove_all(value, "<loc>|</loc>|<lastmod>|</lastmod>"))%>%
-    ungroup()%>%
-    pivot_wider(names_from = type, values_from = value)
-  return(rs)
-}
 
 
 ###### prosent
@@ -151,10 +102,9 @@ sitemap <- function(url) {
 #' @export
 #'
 #' @examples
-#'
 pct <- function(tbl, na.rm = TRUE) {
   tbl %>%
-    mutate(pct = n/sum(n, na.rm = na.rm))
+    dplyr::mutate(pct = n / sum(n, na.rm = na.rm))
 }
 
 
@@ -178,78 +128,72 @@ pct <- function(tbl, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
-#'a <- seq(1,9,2)
-#'b <- rep(letters)
-#'c <- rep(c(a,NA),10)
-#'d <- c(1,2,3,3,20,31)
-#'e <- c(NA,NA,NA,NA,3,3,2)
-#'f <- c( 5, 10, 17, 24, 30)
-#'e <- rnorm(1e4)
-#'sum_fun(a)
-#'sum_fun(b)
-#'sum_fun(c, na.rm = TRUE)
-#'sum_fun(d)
-#'sum_fun(e, na.rm = TRUE)
-#'sum_fun(f)
-#'sum_fun(e)
+#' a <- seq(1, 9, 2)
 #'
+#' c <- rep(c(a, NA), 10)
+#' d <- c(1, 2, 3, 3, 20, 31)
+#' e <- c(NA, NA, NA, NA, 3, 3, 2)
+#' f <- c(5, 10, 17, 24, 30)
+#' e <- rnorm(1e4)
+#' sum_fun(a)
+#' sum_fun(c, na.rm = TRUE)
+#' sum_fun(d)
+#' sum_fun(e, na.rm = TRUE)
+#' sum_fun(f)
+#' sum_fun(e)
 sum_fun <- function(x, na.rm = FALSE) {
-  if(!is.numeric(x)){
+  if (!is.numeric(x)) {
     stop("Input must be numeric")
   }
 
-  if(any(is.na(x))){
-
-    if(na.rm ==FALSE){
+  if (any(is.na(x))) {
+    if (na.rm == FALSE) {
       stop("Vector contains NA, reconsider")
-
-    }
-    else {
-      x = stats::na.omit(x)
+    } else {
+      x <- stats::na.omit(x)
     }
   }
 
-  sum_x = sum(x)
-  length_m = length(x)
-  mean = sum_x/length_m
-  geo = prod(x)^(1/length_m)
-  ##Mode
+  sum_x <- sum(x)
+  length_m <- length(x)
+  mean <- sum_x / length_m
+  geo <- prod(x)^(1 / length_m)
+  ## Mode
   mode_x <- function(x) {
     ux <- unique(x)
     ux[which.max(tabulate(match(x, ux)))]
   }
 
-  mode = mode_x(x)
+  mode <- mode_x(x)
 
-  ##harmonic
-  i= 0
-  harm = vector(mode ="numeric", length = length_m )
-  test = while (i<length_m+1) {
-    harm[i] = 1/x[i]
-    i = i+1
+  ## harmonic
+  i <- 0
+  harm <- vector(mode = "numeric", length = length_m)
+  test <- while (i < length_m + 1) {
+    harm[i] <- 1 / x[i]
+    i <- i + 1
   }
-  h_mean = length_m/sum(harm)
+  h_mean <- length_m / sum(harm)
 
-  ###SDV
-  i= 0
-  sdv = vector(mode ="numeric", length = length_m)
-  #Burde vært for-loop
-  while (i<length_m+1) {
-    sdv[i] = (x[i]- (sum(x)/length_m))^2
-    i = i+1
+  ### SDV
+  i <- 0
+  sdv <- vector(mode = "numeric", length = length_m)
+  # Burde vært for-loop
+  while (i < length_m + 1) {
+    sdv[i] <- (x[i] - (sum(x) / length_m))^2
+    i <- i + 1
   }
 
-  sorted = sort(x)
-  med = ifelse(length_m %% 2==1, sorted[(length_m/2)], mean(sorted[length_m/2+0:1]))
+  sorted <- sort(x)
+  med <- ifelse(length_m %% 2 == 1, sorted[(length_m / 2)], mean(sorted[length_m / 2 + 0:1]))
 
-  sd = sqrt(sum(sdv)/(length_m-1))
-  se = sd/sqrt(length_m)
+  sd <- sqrt(sum(sdv) / (length_m - 1))
+  se <- sd / sqrt(length_m)
 
-  output = dplyr::tibble(mean = mean, geo_mean = geo, harm_mean = h_mean, median = med, standard_deviation= sd, standard_error = se, n=length_m)
+  output <- tibble::tibble(mean = mean, geo_mean = geo, harm_mean = h_mean, median = med, standard_deviation = sd, standard_error = se, n = length_m)
   return(output)
-
 }
-######function for finding mode in a numeric vector
+###### function for finding mode in a numeric vector
 
 #' Mode
 #'
@@ -262,22 +206,17 @@ sum_fun <- function(x, na.rm = FALSE) {
 #' @examples
 #'
 mode_vec <- function(x, na.rm = FALSE) {
-  if(!is.numeric(x)){
+  if (!is.numeric(x)) {
     stop("Imput must be numberic")
   }
 
-  if(any(is.na(x))){
-
-    if(na.rm ==FALSE){
+  if (any(is.na(x))) {
+    if (na.rm == FALSE) {
       rlang::inform("Vector contains NA")
-      x = NA
+      x <- NA
+    } else {
+      x <- stats::na.omit(x)
     }
-    else {
-      x = stats::na.omit(x)
-    }
-
-
-
   }
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]

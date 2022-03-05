@@ -15,6 +15,3 @@ komma(...)
 \description{
 Title
 }
-\examples{
-
-}

@@ -38,15 +38,6 @@ theme_pedr(
 }
 \description{
 Based on theme_minimal\n
-Font is `BentonSans Regular`, and must be installed first\n
+Font is \verb{BentonSans Regular}, and must be installed first\n
 title, subtitle are centered
-}
-\examples{
-library(ggplot2)
-faithfuld \%>\%
-ggplot(aes(density)) +
-geom_histogram() +
-scale_x_continuous(labels = komma()) +
-theme_pedr() +
-labs(title = "This is a title", subtitle = "This is a subtitle")
 }

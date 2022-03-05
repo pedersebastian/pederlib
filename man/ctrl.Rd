@@ -17,6 +17,3 @@ ctrl(save_workflow = FALSE, ...)
 \description{
 control function
 }
-\examples{
-
-}
