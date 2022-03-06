@@ -4,14 +4,12 @@
 #' Parsing lat and lng
 #'
 #' @description extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
-#' @param tbl a tibble
+#' @param tbl a tbl
 #' @param geo_variable variable navn with the lng and lat
 #' @param first the first value is latitude or longitude
-#' @return
+#'
+#' @return a tbl
 #' @export
-#'
-#' @examples
-#'
 parse_geo <- function(tbl, geo_variable, first = "latitude") {
   if (!is.character(first)) {
     rlang::abort("Variable first must be character")
@@ -43,9 +41,9 @@ parse_geo <- function(tbl, geo_variable, first = "latitude") {
 
   if (first == "longitude") {
   rs <-   rs %>%
-      rename(long= latitude,
+    dplyr::rename(long= latitude,
              lat = longitude) %>%
-      rename(longitude = long, latitude = latitude)
+    dplyr::rename(longitude = long, latitude = latitude)
   }
 
   return(rs)
@@ -56,11 +54,8 @@ parse_geo <- function(tbl, geo_variable, first = "latitude") {
 #'
 #' @param url sitemap.xml url
 #'
-#' @return
+#' @return a tibble
 #' @export
-#'
-#' @examples
-#'
 sitemap <- function(url) {
   rs <-
     xml2::read_xml(url) %>%

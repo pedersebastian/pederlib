@@ -12,8 +12,11 @@ ctrl(save_workflow = FALSE, ...)
 \item{...}{passed on to control race}
 }
 \value{
-
+control_race object
 }
 \description{
 control function
+}
+\examples{
+ctrl(save_workflow = TRUE)
 }

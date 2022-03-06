@@ -1,4 +1,4 @@
-#helpers
+#helpers stolen from yardstick
 neg_val2 <- function (xtab, event_level)
 {
   if (!all(dim(xtab) == 2)) {
@@ -23,4 +23,21 @@ pos_val2 <- function (xtab, event_level)
   else {
     colnames(xtab)[[2]]
   }
+}
+
+is_event_first <- function (event_level)
+{
+  validate_event_level(event_level)
+  identical(event_level, "first")
+}
+
+validate_event_level <- function (event_level)
+{
+  if (identical(event_level, "first")) {
+    return(invisible())
+  }
+  if (identical(event_level, "second")) {
+    return(invisible())
+  }
+  rlang::abort("`event_level` must be 'first' or 'second'.")
 }

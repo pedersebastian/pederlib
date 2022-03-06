@@ -7,18 +7,15 @@
 parse_geo(tbl, geo_variable, first = "latitude")
 }
 \arguments{
-\item{tbl}{a tibble}
+\item{tbl}{a tbl}
 
 \item{geo_variable}{variable navn with the lng and lat}
 
 \item{first}{the first value is latitude or longitude}
 }
 \value{
-
+a tbl
 }
 \description{
 extract latitude and longitude for geo_field like GEO3212(31.3112,-88.22)
-}
-\examples{
-
 }

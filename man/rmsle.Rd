@@ -12,7 +12,7 @@ rmsle(data, ...)
 \item{...}{needs truth and estimate}
 }
 \value{
-
+rmsle
 }
 \description{
 root mean square log error

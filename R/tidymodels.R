@@ -7,10 +7,11 @@
 #' @param save_workflow save workflow
 #' @param ... passed on to control race
 #'
-#' @return
+#' @return control_race object
 #' @export
 #'
 #' @examples
+#' ctrl(save_workflow = TRUE)
 ctrl <- function(save_workflow = FALSE, ...) {
   ctrl <- finetune::control_race(verbose_elim = TRUE, save_pred = T, save_workflow = save_workflow, ...)
   ctrl
@@ -26,26 +27,27 @@ ctrl <- function(save_workflow = FALSE, ...) {
 #' @param resamples Type of resampling method
 #' @param number_folds num of resam
 #'
-#' @return
+#' @return nothing
 #' @export
 #'
 #' @examples
 #' use_split(mtcars, mpg)
-#' library(tidymodels)
+#' #Returns:
+#' #library(tidymodels)
+#' #
+#' #set.seed(439)
+#' #mtcars_split <-
+#' # initial_split(mtcars, strata = mpg)
 #'
-#' set.seed(439)
-#' mtcars_split <-
-#'   initial_split(mtcars, strata = mpg)
-#'
-#' mtcars_train <-
-#'   training(mtcars_split)
-#' mtcars_test <-
-#'   testing(mtcars_split)
-#'
-#'
-#' set.seed(274)
-#' mtcars_folds <-
-#'   bootstraps(mtcars_train, strata = mpg, times = 25)
+#' #mtcars_train <-
+#' #   training(mtcars_split)
+#' #mtcars_test <-
+#' #   testing(mtcars_split)
+#' #
+#' #
+#' #set.seed(274)
+#' #mtcars_folds <-
+#' #   bootstraps(mtcars_train, strata = mpg, times = 25)
 #'
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL) {
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
@@ -149,7 +151,7 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
 #' @param new_data new data ?
 #' @param ... passed on to bake such as composition
 #'
-#' @return
+#' @return baked tible
 #' @export
 
 juice <- function(prepped_rec, new_data = NULL, ...) {
@@ -171,10 +173,11 @@ juice <- function(prepped_rec, new_data = NULL, ...) {
 #' @param quarter add quarter
 #' @param semester add semester
 #'
-#' @return
+#' @return vector
 #' @export
 #'
 #' @examples
+#' dates()
 dates <- function(year = TRUE,
                   month = TRUE,
                   week = TRUE,

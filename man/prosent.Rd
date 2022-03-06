@@ -10,7 +10,7 @@ prosent(...)
 \item{...}{passed on to scales::percent_format}
 }
 \value{
-
+scale
 }
 \description{
 Title

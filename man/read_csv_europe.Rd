@@ -16,11 +16,8 @@ read_csv_europe(file, skip = 0, encoding = "CP1252", ...)
 \item{...}{passed on to vroom::vroom}
 }
 \value{
-
+tibble
 }
 \description{
 Read csv from european encoding
-}
-\examples{
-
 }

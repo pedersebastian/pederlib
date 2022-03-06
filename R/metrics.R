@@ -8,10 +8,11 @@
 #' @param mode Classification of regression (C or R)
 #' @param ...  passed on the yardstick::metric_set()
 #'
-#' @return
+#' @return metric_set ibject
 #' @export
 #'
 #' @examples
+#' mset()
 mset <- function(mode = "C", ...) {
   arguments <- match.call()
   arguments <- as.list(arguments)
@@ -53,7 +54,7 @@ mset <- function(mode = "C", ...) {
 ####### Custom metrics
 
 ## RMSLE - root mean squared log error
-## code from Julia Silge
+## code from Julia Silge :)
 
 rmsle_vec <- function(truth, estimate, na_rm = TRUE, ...) {
   rmsle_impl <- function(truth, estimate) {
@@ -75,7 +76,7 @@ rmsle_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 #' @param data data
 #' @param ... needs truth and estimate
 #'
-#' @return
+#' @return rmsle
 #' @export
 rmsle <- function(data, ...) {
   UseMethod("rmsle")
@@ -104,7 +105,7 @@ rmsle.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 #' @param data data
 #' @param ... ...
 #'
-#' @return
+#' @return geometric
 #' @export
 g_mean <- function(data, ...) {
   UseMethod("g_mean")

@@ -31,10 +31,12 @@ theme_center(
 
 \item{plot_title_margin}{x}
 
+\item{strip_color}{facet-strip color}
+
 \item{...}{x}
 }
 \value{
-
+theme
 }
 \description{
 #theme_center

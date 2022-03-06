@@ -33,15 +33,22 @@ library(pederlib)
 ## basic example code
 ```
 
-| Function | Name | Description |
-|----------|------|-------------|
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
-|          |      |             |
+| Function                        | Name              | Description |
+|---------------------------------|-------------------|-------------|
+| Control race with new delfaults | ctrl(…)           |             |
+| Dates                           | dates()           |             |
+| Geometric mean of sens and spec | g_mean            |             |
+| juice                           | juice()           |             |
+| Komma                           | komma(…)          |             |
+| Mode                            | mode_vec(x)       |             |
+| Metric set                      | mset()            |             |
+| Percent                         | pct()             |             |
+| Prosent                         | prosent()         |             |
+| Read CSV Europe                 | read_csv_europe() |             |
+| Sitemap                         | sitemap()         |             |
+| Startup                         | startup()         |             |
+| Sum fun                         | sum_fun()         |             |
+| Theme Center                    | theme_center()    |             |
+| Theme Pedr                      | theme_pedr()      |             |
+| Use split                       | use_split()       |             |
+| \##autoplot workflowset         |                   |             |

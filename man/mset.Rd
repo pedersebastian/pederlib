@@ -12,8 +12,11 @@ mset(mode = "C", ...)
 \item{...}{passed on the yardstick::metric_set()}
 }
 \value{
-
+metric_set ibject
 }
 \description{
 Title
+}
+\examples{
+mset()
 }

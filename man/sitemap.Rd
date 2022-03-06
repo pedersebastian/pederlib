@@ -10,11 +10,8 @@ sitemap(url)
 \item{url}{sitemap.xml url}
 }
 \value{
-
+a tibble
 }
 \description{
 parsing sitemaps
-}
-\examples{
-
 }

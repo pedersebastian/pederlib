@@ -12,7 +12,7 @@ sum_fun(x, na.rm = FALSE)
 \item{na.rm}{If NA remove}
 }
 \value{
-
+a tibble
 }
 \description{
 \itemize{
@@ -28,7 +28,6 @@ sum_fun(x, na.rm = FALSE)
 }
 \examples{
 a <- seq(1, 9, 2)
-
 c <- rep(c(a, NA), 10)
 d <- c(1, 2, 3, 3, 20, 31)
 e <- c(NA, NA, NA, NA, 3, 3, 2)

@@ -10,8 +10,18 @@ komma(...)
 \item{...}{passed on to scales::comma_format}
 }
 \value{
-
+scale
 }
 \description{
 Title
+}
+\examples{
+library(ggplot2)
+data(faithful)
+faithful \%>\%
+  ggplot(aes(eruptions)) +
+  geom_histogram() +
+  scale_x_continuous(labels = komma()) +
+  theme_center() +
+  labs(title = "This is a title", subtitle = "This is a subtitle")
 }

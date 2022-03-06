@@ -33,8 +33,11 @@ dates(
 \item{semester}{add semester}
 }
 \value{
-
+vector
 }
 \description{
 Dates
+}
+\examples{
+dates()
 }

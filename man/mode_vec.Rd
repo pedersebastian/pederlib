@@ -12,11 +12,12 @@ mode_vec(x, na.rm = FALSE)
 \item{na.rm}{na rm}
 }
 \value{
-
+mode
 }
 \description{
 Mode
 }
 \examples{
-
+x <- c(1,2,3,1,2,3,3)
+mode_vec(x)
 }

@@ -12,7 +12,7 @@ g_mean(data, ...)
 \item{...}{...}
 }
 \value{
-
+geometric
 }
 \description{
 Title

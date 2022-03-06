@@ -12,7 +12,7 @@ pct(tbl, na.rm = TRUE)
 \item{na.rm}{NA-removing of the sum part}
 }
 \value{
-
+tbl
 }
 \description{
 Prosent

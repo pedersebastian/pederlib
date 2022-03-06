@@ -31,13 +31,15 @@ theme_pedr(
 
 \item{plot_title_margin}{b}
 
+\item{strip_color}{facet-strip color}
+
 \item{...}{x}
 }
 \value{
-
+theme
 }
 \description{
-Based on theme_minimal\n
-Font is \verb{BentonSans Regular}, and must be installed first\n
+Based on theme_minimal
+Font is \verb{BentonSans Regular}, and must be installed first
 title, subtitle are centered
 }

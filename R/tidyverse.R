@@ -2,8 +2,8 @@
 #' Theme Peder
 #'
 #' @description
-#' Based on theme_minimal\n
-#' Font is `BentonSans Regular`, and must be installed first\n
+#' Based on theme_minimal
+#' Font is `BentonSans Regular`, and must be installed first
 #' title, subtitle are centered
 #'
 #' @param base_size b
@@ -13,12 +13,11 @@
 #' @param subtitle_margin b
 #' @param plot_title_size b
 #' @param plot_title_margin b
+#' @param strip_color facet-strip color
 #' @param ... x
 #'
-#' @return
+#' @return theme
 #' @export
-#'
-#' @examples
 theme_pedr <- function(base_size = 11,
                        strip_text_size = 12,
                        strip_text_margin = 5,
@@ -73,9 +72,10 @@ theme_pedr <- function(base_size = 11,
 #' @param subtitle_margin x
 #' @param plot_title_size x
 #' @param plot_title_margin x
+#' @param strip_color facet-strip color
 #' @param ... x
 #'
-#' @return
+#' @return theme
 #' @export
 #'
 #' @examples
@@ -134,8 +134,17 @@ theme_center <- function(base_size = 11,
 #'
 #' @param ... passed on to scales::comma_format
 #'
-#' @return
+#' @return scale
 #' @export
+#' @examples
+#' library(ggplot2)
+#' data(faithful)
+#' faithful %>%
+#'   ggplot(aes(eruptions)) +
+#'   geom_histogram() +
+#'   scale_x_continuous(labels = komma()) +
+#'   theme_center() +
+#'   labs(title = "This is a title", subtitle = "This is a subtitle")
 komma <- function(...) {
   scales::comma_format(decimal.mark = ",", big.mark = ".", ...)
 }
@@ -144,8 +153,22 @@ komma <- function(...) {
 #'
 #' @param ... passed on to scales::percent_format
 #'
-#' @return
+#' @return scale
 #' @export
 prosent <- function(...) {
   scales::percent_format(decimal.mark = ",", big.mark = ".", ...)
+}
+
+
+
+
+#' Both x and y scale on log
+#'
+#' @param ... passed on to scale_x_log10 and scale_y_log10
+#'
+#' @return scales
+#' @export
+
+scale_xy_log10 <- function(...) {
+  list(ggplot2::scale_x_log10(...), ggplot2::scale_y_log10(...))
 }

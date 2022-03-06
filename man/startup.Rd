@@ -12,7 +12,7 @@ startup(type = 1, paralell = FALSE)
 \item{paralell}{if parralell}
 }
 \value{
-
+nothing
 }
 \description{
 Loading packages

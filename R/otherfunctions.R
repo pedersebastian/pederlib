@@ -7,11 +7,8 @@
 #' @param encoding encoding (CP1252 is defalt)
 #' @param ... passed on to vroom::vroom
 #'
-#' @return
+#' @return tibble
 #' @export
-#'
-#' @examples
-#'
 read_csv_europe <- function(file,
                             skip = 0,
                             encoding = "CP1252",
@@ -28,7 +25,7 @@ read_csv_europe <- function(file,
 #' @param type type startup
 #' @param paralell if parralell
 #'
-#' @return
+#' @return nothing
 #' @export
 #'
 #' @examples
@@ -39,46 +36,70 @@ startup <- function(type = 1, paralell = FALSE) {
     rlang::abort("Type must be numeric")
   }
   if (type == 1) {
-    suppressPackageStartupMessages(library(tidyverse))
-    suppressPackageStartupMessages(library(lubridate))
+    pacman::p_load(tidyverse,
+                   lubridate)
+    #suppressPackageStartupMessages(library(tidyverse))
+   # suppressPackageStartupMessages(library(lubridate))
     mes <- "Tidyverse and Lubridate has been loaded."
   } else if (type == 3) {
-    suppressPackageStartupMessages(library(tidyverse))
-    suppressPackageStartupMessages(library(lubridate))
-    suppressPackageStartupMessages(library(rvest))
+    pacman::p_load(tidyverse,
+                   lubridate,
+                   rvest)
+   # suppressPackageStartupMessages(library(rvest))
     mes <- "Tidyverse, Lubridate and Rvest has been loaded."
   } else if (type == 4) {
-    suppressPackageStartupMessages(library(tidyverse))
-    suppressPackageStartupMessages(library(lubridate))
-    suppressPackageStartupMessages(library(tidymodels))
-    suppressPackageStartupMessages(library(psych))
-    suppressPackageStartupMessages(library(blandr))
-    suppressPackageStartupMessages(library(gtsummary))
-    suppressPackageStartupMessages(library(gt))
-    suppressPackageStartupMessages(library(blandaltmanR))
-    suppressPackageStartupMessages(library(irrCAC))
+    pacman::p_load(tidyverse,
+                   lubridate,
+                   tidymodels,
+                   psych,
+                   blandr,
+                   gtsummary,
+                   gt,
+                   blandaltmanR,
+                   irrCAC)
+
+    # suppressPackageStartupMessages(library(tidyverse))
+    # suppressPackageStartupMessages(library(lubridate))
+    # suppressPackageStartupMessages(library(tidymodels))
+    # suppressPackageStartupMessages(library(psych))
+    # suppressPackageStartupMessages(library(blandr))
+    # suppressPackageStartupMessages(library(gtsummary))
+    # suppressPackageStartupMessages(library(gt))
+    # suppressPackageStartupMessages(library(blandaltmanR))
+    # suppressPackageStartupMessages(library(irrCAC))
     mes <- "Tidymodels, Tidyverse, Lubridate,  psych, blandr, gtsummary, gt, irrCAC, and blandaltmanR has been loaded."
   } else {
-    suppressPackageStartupMessages(library(baguette))
-    suppressPackageStartupMessages(library(lubridate))
-    suppressPackageStartupMessages(library(tidymodels))
-    suppressPackageStartupMessages(library(tidyverse))
-    suppressPackageStartupMessages(library(finetune))
-    suppressPackageStartupMessages(library(textrecipes))
-    suppressPackageStartupMessages(library(stacks))
-    suppressPackageStartupMessages(library(lubridate))
-    suppressPackageStartupMessages(library(themis))
-    suppressPackageStartupMessages(library(multilevelmod))
+    pacman::p_load(tidyverse,
+                   lubridate,
+                   tidymodels,
+                   baguette,
+                   finetune,
+                   textrecipes,
+                   stacks,
+                   themis,
+                   multilevelmod,
+                   censored
+                   )
+    # suppressPackageStartupMessages(library(baguette))
+    # suppressPackageStartupMessages(library(lubridate))
+    # suppressPackageStartupMessages(library(tidymodels))
+    # suppressPackageStartupMessages(library(tidyverse))
+    # suppressPackageStartupMessages(library(finetune))
+    # suppressPackageStartupMessages(library(textrecipes))
+    # suppressPackageStartupMessages(library(stacks))
+    # suppressPackageStartupMessages(library(lubridate))
+    # suppressPackageStartupMessages(library(themis))
+    # suppressPackageStartupMessages(library(multilevelmod))
 
-    mes <- "Tidymodels, Tidyverse, Lubridate,  Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks and Multilevelmod has been loaded."
+    mes <- "Tidymodels, Tidyverse, Lubridate,  Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks, Censored and Multilevelmod has been loaded."
   }
 
   if (paralell) {
     mes <- paste0(mes, "\n", "Parallel processing has been initiated.")
     doParallel::registerDoParallel(cores = 8)
   }
-  suppressPackageStartupMessages(library(pederlib))
-  theme_set(pederlib::theme_center())
+  pacman::p_load(pederlib)
+  theme_set(theme_center())
 
 
   ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
@@ -98,10 +119,9 @@ startup <- function(type = 1, paralell = FALSE) {
 #' @param tbl  a tbble
 #' @param na.rm NA-removing of the sum part
 #'
-#' @return
+#' @return tbl
 #' @export
-#'
-#' @examples
+
 pct <- function(tbl, na.rm = TRUE) {
   tbl %>%
     dplyr::mutate(pct = n / sum(n, na.rm = na.rm))
@@ -124,12 +144,11 @@ pct <- function(tbl, na.rm = TRUE) {
 #' @param x A numeric vector
 #' @param na.rm If NA remove
 #'
-#' @return
+#' @return a tibble
 #' @export
 #'
 #' @examples
 #' a <- seq(1, 9, 2)
-#'
 #' c <- rep(c(a, NA), 10)
 #' d <- c(1, 2, 3, 3, 20, 31)
 #' e <- c(NA, NA, NA, NA, 3, 3, 2)
@@ -200,11 +219,12 @@ sum_fun <- function(x, na.rm = FALSE) {
 #' @param x Vector to find mode
 #' @param na.rm na rm
 #'
-#' @return
+#' @return mode
 #' @export
 #'
 #' @examples
-#'
+#'x <- c(1,2,3,1,2,3,3)
+#'mode_vec(x)
 mode_vec <- function(x, na.rm = FALSE) {
   if (!is.numeric(x)) {
     stop("Imput must be numberic")

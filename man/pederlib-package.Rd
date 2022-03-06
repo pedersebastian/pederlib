@@ -4,12 +4,12 @@
 \name{pederlib-package}
 \alias{pederlib}
 \alias{pederlib-package}
-\title{pederlib: What the Package Does (One Line, Title Case)}
+\title{pederlib: Personal library}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Peder Sebastian Martinsen \email{peder.s.martinsen@gmail.com}
 
 }
 \keyword{internal}
