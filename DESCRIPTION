@@ -1,9 +1,8 @@
 Package: pederlib
-Title: What the Package Does (One Line, Title Case)
-Version: 0.1.0
+Title: Personal library 
+Version: 0.2.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Peder Sebastian", "Martinsen", , "peder.s.martinsen@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Suggests: 
