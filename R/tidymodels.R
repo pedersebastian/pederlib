@@ -26,12 +26,13 @@ ctrl <- function(save_workflow = FALSE, ...) {
 #' @param strata Strata variable-navn
 #' @param resamples Type of resampling method
 #' @param number_folds num of resam
+#' @param to_clipboard copy to clipboard
 #'
 #' @return nothing
 #' @export
 #'
 #' @examples
-#' use_split(mtcars, mpg)
+#' use_split(mtcars, mpg, to_clipboard = FALSE)
 #' #Returns:
 #' #library(tidymodels)
 #' #
@@ -49,7 +50,7 @@ ctrl <- function(save_workflow = FALSE, ...) {
 #' #mtcars_folds <-
 #' #   bootstraps(mtcars_train, strata = mpg, times = 25)
 #'
-use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL) {
+use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL, to_clipboard = TRUE) {
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
   vfold_ok <- c("vfold", "vfolds", "v_fold", "v_folds")
   boot <- c("bootstraps", "bootstrap", "boot")
@@ -140,7 +141,15 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
     folds,
     sep = "\n"
   )
-  cat(rs)
+
+  if (to_clipboard) {
+    clipr::write_clip(rs, object_type = "character")
+    cli::cli_alert_success("Code copied to the clipboard!")
+  }
+  else {
+    cat(rs)
+  }
+
   invisible(NULL)
 }
 

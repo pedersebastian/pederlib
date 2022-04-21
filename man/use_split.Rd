@@ -4,7 +4,13 @@
 \alias{use_split}
 \title{Set of for resampling}
 \usage{
-use_split(data, strata = NULL, resamples = NULL, number_folds = NULL)
+use_split(
+  data,
+  strata = NULL,
+  resamples = NULL,
+  number_folds = NULL,
+  to_clipboard = TRUE
+)
 }
 \arguments{
 \item{data}{Data}
@@ -14,6 +20,8 @@ use_split(data, strata = NULL, resamples = NULL, number_folds = NULL)
 \item{resamples}{Type of resampling method}
 
 \item{number_folds}{num of resam}
+
+\item{to_clipboard}{copy to clipboard}
 }
 \value{
 nothing
@@ -22,7 +30,7 @@ nothing
 Set of for resampling
 }
 \examples{
-use_split(mtcars, mpg)
+use_split(mtcars, mpg, to_clipboard = FALSE)
 #Returns:
 #library(tidymodels)
 #

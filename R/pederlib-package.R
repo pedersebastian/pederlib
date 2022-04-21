@@ -3,6 +3,8 @@
 
 ## usethis namespace: start
 #' @import rlang
+#' @importFrom cli cli_alert_success
+#' @importFrom clipr write_clip
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dplyr across
 #' @importFrom dplyr as_tibble
