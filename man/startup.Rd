@@ -4,18 +4,18 @@
 \alias{startup}
 \title{Loading packages}
 \usage{
-startup(type = 1, paralell = FALSE)
+startup(..., parallel = FALSE)
 }
 \arguments{
-\item{type}{type startup}
+\item{...}{1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels}
 
-\item{paralell}{if parralell}
+\item{parallel}{if parallel}
 }
 \value{
 nothing
 }
 \description{
-Loading packages
+type 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 }
 \examples{
 

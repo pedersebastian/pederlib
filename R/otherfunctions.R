@@ -21,9 +21,10 @@ read_csv_europe <- function(file,
 
 ##########
 #' Loading packages
+#' @description type 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 #'
-#' @param type type startup
-#' @param paralell if parralell
+#' @param ... 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
+#' @param parallel if parallel
 #'
 #' @return nothing
 #' @export
@@ -31,81 +32,211 @@ read_csv_europe <- function(file,
 #' @examples
 #'
 #' pederlib::startup(1)
-startup <- function(type = 1, paralell = FALSE) {
-  if (!is.numeric(type)) {
-    rlang::abort("Type must be numeric")
+startup <-  function(..., parallel = FALSE) {
+
+  attached_pack <- .packages()
+
+  rlang::check_dots_unnamed()
+  pack <- vector()
+
+  tidyverse_pack <- c("ggplot2",
+                 "tibble",
+                 "tidyr",
+                 "readr",
+                 "purrr",
+                 "dplyr",
+                 "stringr",
+                 "forcats")
+
+  tidymodels_pack <- c("broom",
+                  "dials",
+                  "dplyr",
+                  "ggplot2",
+                  "infer",
+                  "modeldata",
+                  "parsnip",
+                  "purrr",
+                  "recipes",
+                  "rsample",
+                  "tibble",
+                  "tidyr",
+                  "tune",
+                  "workflows",
+                  "workflowsets",
+                  "yardstick")
+
+  dots <-
+    unlist(rlang::dots_values(...))
+
+  if (length(dots)==0) {
+    dots = 1
   }
-  if (type == 1) {
-    pacman::p_load(tidyverse,
-                   lubridate)
-    #suppressPackageStartupMessages(library(tidyverse))
-   # suppressPackageStartupMessages(library(lubridate))
-    mes <- "Tidyverse and Lubridate has been loaded."
-  } else if (type == 3) {
-    pacman::p_load(tidyverse,
-                   lubridate,
-                   rvest)
-   # suppressPackageStartupMessages(library(rvest))
-    mes <- "Tidyverse, Lubridate and Rvest has been loaded."
-  } else if (type == 4) {
-    pacman::p_load(tidyverse,
-                   lubridate,
-                   tidymodels,
-                   psych,
-                   blandr,
-                   gtsummary,
-                   gt,
-                   blandaltmanR,
-                   irrCAC)
-
-    # suppressPackageStartupMessages(library(tidyverse))
-    # suppressPackageStartupMessages(library(lubridate))
-    # suppressPackageStartupMessages(library(tidymodels))
-    # suppressPackageStartupMessages(library(psych))
-    # suppressPackageStartupMessages(library(blandr))
-    # suppressPackageStartupMessages(library(gtsummary))
-    # suppressPackageStartupMessages(library(gt))
-    # suppressPackageStartupMessages(library(blandaltmanR))
-    # suppressPackageStartupMessages(library(irrCAC))
-    mes <- "Tidymodels, Tidyverse, Lubridate,  psych, blandr, gtsummary, gt, irrCAC, and blandaltmanR has been loaded."
-  } else {
-    pacman::p_load(tidyverse,
-                   lubridate,
-                   tidymodels,
-                   baguette,
-                   finetune,
-                   textrecipes,
-                   stacks,
-                   themis,
-                   multilevelmod,
-                   censored
-                   )
-    # suppressPackageStartupMessages(library(baguette))
-    # suppressPackageStartupMessages(library(lubridate))
-    # suppressPackageStartupMessages(library(tidymodels))
-    # suppressPackageStartupMessages(library(tidyverse))
-    # suppressPackageStartupMessages(library(finetune))
-    # suppressPackageStartupMessages(library(textrecipes))
-    # suppressPackageStartupMessages(library(stacks))
-    # suppressPackageStartupMessages(library(lubridate))
-    # suppressPackageStartupMessages(library(themis))
-    # suppressPackageStartupMessages(library(multilevelmod))
-
-    mes <- "Tidymodels, Tidyverse, Lubridate,  Finetune, Baguette, Themis, Lubridate, Textrecipes, Stacks, Censored and Multilevelmod has been loaded."
+  if (is.character(dots)) {
+    dots <-  str_extract(l, "[:digit:]")
+    dots <- dots[!is.na(dots)]
+    dots <- as.integer(dots)
+  }
+  if (length(dots)==0) {
+    dots = 1
   }
 
-  if (paralell) {
-    mes <- paste0(mes, "\n", "Parallel processing has been initiated.")
+  ###
+  if (any(dots ==1)) {
+   # pack <- append(pack, tidyverse_pack)
+    pack <- append(pack, c("tidyverse","lubridate"))
+
+  }
+
+  tm_addons <- c("baguette",
+                 "finetune",
+                 "textrecipes",
+                 "stacks",
+                 "themis",
+                 "multilevelmod",
+                 "censored",
+                 "discrim",
+                 "plsmod",
+                 "rules",
+                 "baguette",
+                 "embed",
+                 "spatialsample",
+                 "tidyposterior",
+                 "shinymodels",
+                 "extrasteps")
+
+  if (any(dots ==2)) {
+   # pack <- append(pack, tidyverse_pack)
+   # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c("tidyverse",
+                           "tidymodels",
+                           "lubridate"))
+    pack <- append(pack, tm_addons)
+  }
+  if (any(dots ==3)) {
+    #pack <- append(pack, tidyverse_pack)
+    pack <- append(pack, c("tidyverse",
+                           "lubridate",
+                           "rvest"))
+  }
+  if (any(dots == 4)) {
+    #pack <- append(pack, tidyverse_pack)
+   # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c("tidyverse",
+                           "lubridate",
+                           "tidymodels",
+                           "psych",
+                           "blandr",
+                           "gtsummary",
+                           "gt",
+                           "blandaltmanR",
+                           "irrCAC"))
+  }
+  if (any(dots ==5)) {
+   # pack <- append(pack, tidyverse_pack)
+   # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c("tidyverse",
+                           "tidymodels",
+                           "lubridate",
+                           "Matrix",
+                           "lmerTest",
+                           "lme4",
+                           "broom.mixed",
+                           "multilevelmod",
+                           "nlme",
+                           "gamm4",
+                           "blme",
+                           "cAIC4"))
+  }
+
+
+
+  pack <- append(pack, "pederlib")
+  pack <- unique(pack)
+  old_pack <- pack[pack %in% attached_pack]
+  pack <- pack[!pack %in% attached_pack]
+
+  # dots_logial <- append(all(dots>5),all(dots <1) )
+  # print(dots_logial)
+  #
+  # if (any(dots_logial==TRUE)) {
+  #   print("Hei")
+  # }
+  attach <- vector()
+  if (length(pack)>0) {
+    cat("Loaded packages: \n")
+    for (i in pack) {
+      x <- suppressMessages(suppressWarnings(require(i, character.only = TRUE)))
+      attach <- append(attach, i)
+    #  print(attach)
+      Sys.sleep(0.005)
+     if (x) {
+       if (i == "tidyverse") {
+         cat("Tidyverse: \n")
+         for (j in tidyverse_pack) {
+           cli::cli_alert_success(paste0("\t", j, " (", packageVersion(j),")"))
+         }
+         cat("\n")
+       }
+       if (i == "tidymodels") {
+         cat("Tidymodels: \n")
+         tm <- tidymodels_pack[!tidymodels_pack %in% tidyverse_pack]
+      #   print(tm)
+         for (k in tm) {
+           cli::cli_alert_success(paste0("\t", k," (", packageVersion(i),")"))
+         }
+         cat("\n")
+       }
+       # if (i == "tidymodelsaddons") {
+       #   cat("Tidymodels - add-on: \n")
+       #   for (m in tm_addons) {
+       #     cli::cli_alert_success(paste0("\t", m))
+       #   }
+       #   cat("\n")
+       # }
+
+       else {
+         cli::cli_alert_success(paste0(i, " (", packageVersion(i),")"))
+       }
+
+      }
+      else {
+        cli::cli_alert_warning(i)
+      }
+    }
+  }
+
+  if (length(old_pack)>0) {
+    cat("\nThese packages is already loaded 🙈   \n")
+    for (i in old_pack) {
+      cli::cli_alert_info(i)
+    }
+  }
+
+  cat("\n\n")
+
+  if (parallel) {
+    cli::cli_alert_success("Parallel processing has been initiated. 🤖")
     doParallel::registerDoParallel(cores = 8)
   }
-  pacman::p_load(pederlib)
-  theme_set(theme_center())
 
+  if (identical(ggplot2:::ggplot_global$theme_current, pederlib::theme_center())) {
+    cli::cli_alert_info("Theme is already theme_center  🙈")
 
-  ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
-  ggplot2::update_geom_defaults("point", list(color = "#1d3557", alpha = 0.9))
-  mes <- paste0(mes, "\nTheme set to theme_center.\nGeom defaults updated.")
-  cat(mes)
+  }
+  else {
+    ggplot2::theme_set(pederlib::theme_center())
+    cli::cli_alert_success("Theme set to theme_center 👌")
+  }
+
+  if (ggplot2:::GeomPoint$default_aes$colour == "#1d3557") {
+    cli::cli_alert_info("Geom defaults is already updated 🙈")
+  }
+  else {
+    ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
+    ggplot2::update_geom_defaults("point", list(color = "#1d3557", alpha = 0.9))
+    cli::cli_alert_success("Geom defaults updated ✌️")
+  }
+
   invisible(NULL)
 }
 
@@ -240,4 +371,22 @@ mode_vec <- function(x, na.rm = FALSE) {
   }
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
+}
+
+
+
+#' Title
+#'
+#' @param x character vector of JSON like structuse
+#'
+#' @return a list of character vectors
+#' @export
+parse_genre_JSON <- function(x) {
+  rs <-
+    x %>%
+    stringr::str_split(",") %>%
+    purrr::map(~ stringr::str_remove_all(.x, "\\'")) %>%
+    purrr::map(~ stringr::str_remove_all(.x, "[:punct:]")) %>%
+    purrr:: map(stringr::str_squish)
+  return(rs)
 }
