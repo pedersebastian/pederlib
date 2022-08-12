@@ -4,12 +4,14 @@
 \alias{startup}
 \title{Loading packages}
 \usage{
-startup(..., parallel = FALSE)
+startup(..., parallel = FALSE, stan_op = FALSE)
 }
 \arguments{
 \item{...}{1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels}
 
 \item{parallel}{if parallel}
+
+\item{stan_op}{Include stan}
 }
 \value{
 nothing

@@ -25,6 +25,7 @@ read_csv_europe <- function(file,
 #'
 #' @param ... 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 #' @param parallel if parallel
+#' @param  stan_op Include stan
 #'
 #' @return nothing
 #' @export
@@ -32,7 +33,7 @@ read_csv_europe <- function(file,
 #' @examples
 #'
 #' pederlib::startup(1)
-startup <-  function(..., parallel = FALSE) {
+startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
 
   attached_pack <- .packages()
 
@@ -87,6 +88,7 @@ startup <-  function(..., parallel = FALSE) {
 
   }
 
+
   tm_addons <- c("baguette",
                  "finetune",
                  "textrecipes",
@@ -102,7 +104,10 @@ startup <-  function(..., parallel = FALSE) {
                  "spatialsample",
                  "tidyposterior",
                  "shinymodels",
-                 "extrasteps")
+                 "extrasteps",
+                 "timetk",
+                 "bonsai",
+                 "rstanarm")
 
   if (any(dots ==2)) {
    # pack <- append(pack, tidyverse_pack)
@@ -111,6 +116,7 @@ startup <-  function(..., parallel = FALSE) {
                            "tidymodels",
                            "lubridate"))
     pack <- append(pack, tm_addons)
+
   }
   if (any(dots ==3)) {
     #pack <- append(pack, tidyverse_pack)
@@ -147,7 +153,36 @@ startup <-  function(..., parallel = FALSE) {
                            "blme",
                            "cAIC4"))
   }
+  if (any(dots >10)) {
+    pack <- append(pack, c("MASS",
+                           "tidyverse",
+                           "tidymodels",
+                           "lubridate"))
+    pack <- append(pack, tm_addons)
+    pack <- append(pack, c("tidyverse",
+                           "lubridate",
+                           "tidymodels",
+                           "psych",
+                           "blandr",
+                           "gtsummary",
+                           "gt",
+                           "blandaltmanR",
+                           "irrCAC",
+                           "Matrix",
+                           "lmerTest",
+                           "lme4",
+                           "broom.mixed",
+                           "multilevelmod",
+                           "nlme",
+                           "gamm4",
+                           "blme",
+                           "cAIC4",
+                           "tidytext",
+                           "tidylo",
+                           "rstanarm"
 
+    ))
+  }
 
 
   pack <- append(pack, "pederlib")
@@ -213,10 +248,17 @@ startup <-  function(..., parallel = FALSE) {
   }
 
   cat("\n\n")
-
+  cores <- parallel::detectCores()
   if (parallel) {
-    cli::cli_alert_success("Parallel processing has been initiated. 🤖")
+
     doParallel::registerDoParallel(cores = 8)
+    cli::cli_alert_success(glue::glue("Parallel processing has been initiated with {cores} cores. 🤖"))
+  }
+
+  if (stan_op) {
+    mc.cores = parallel::detectCores()
+    rstan_options(auto_write = TRUE)
+    cli::cli_alert_success(glue::glue("MC-cores has been set to {cores} cores. 🎲\n \t     auto_write is set to TRUE"))
   }
 
   if (identical(ggplot2:::ggplot_global$theme_current, pederlib::theme_center())) {

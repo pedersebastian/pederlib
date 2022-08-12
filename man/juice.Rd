@@ -14,7 +14,7 @@ juice(prepped_rec, new_data = NULL, ...)
 \item{...}{passed on to bake such as composition}
 }
 \value{
-baked tible
+baked tibble
 }
 \description{
 Juice

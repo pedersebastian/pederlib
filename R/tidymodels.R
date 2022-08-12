@@ -160,13 +160,27 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
 #' @param new_data new data ?
 #' @param ... passed on to bake such as composition
 #'
-#' @return baked tible
+#' @return baked tibble
 #' @export
 
 juice <- function(prepped_rec, new_data = NULL, ...) {
   recipes::bake(prepped_rec, new_data = new_data, ...)
 }
 
+
+#'  prep and bake
+#'
+#' @param rec unprepped_rec
+#' @param new_data  new
+#' @param ...  pass
+#'
+#' @return baked tibble
+#' @export
+#'
+#' @examples
+pr_juice <- function(rec, new_data = NULL, ...) {
+  recipes::prep(juice(rec, new_data = NULL, ...))
+}
 
 
 ### date
