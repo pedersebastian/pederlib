@@ -183,6 +183,27 @@ startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
 
     ))
   }
+  if (any(dots == 6)) {
+    pack <- append(pack,  c("tidyverse",
+                            "lubridate",
+                            "ggforce",
+                            "colorspace",
+                            "particles",
+                            "ambient",
+                            "viridis",
+                            "ggtrace",
+                            "scico",
+                            "ggfx",
+                            "patchwork",
+                            "transformr",
+                            "farver",
+                            "scales",
+                            "ggdist",
+                            "ggpointdensity",
+                            "cowplot",
+                            "gghalves" )
+)
+  }
 
 
   pack <- append(pack, "pederlib")
@@ -279,7 +300,7 @@ startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
     cli::cli_alert_success("Geom defaults updated ✌️")
   }
 
-  invisible(NULL)
+  invisible(pack)
 }
 
 
