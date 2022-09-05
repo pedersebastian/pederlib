@@ -179,7 +179,7 @@ juice <- function(prepped_rec, new_data = NULL, ...) {
 #'
 #' @examples
 pr_juice <- function(rec, new_data = NULL, ...) {
-  recipes::prep(juice(rec, new_data = NULL, ...))
+  recipes::bake(recipes::prep(rec), new_data = NULL, ...)
 }
 
 
