@@ -201,7 +201,11 @@ startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
                             "ggdist",
                             "ggpointdensity",
                             "cowplot",
-                            "gghalves" )
+                            "gghalves",
+                            "purrr",
+                            "broom",
+                            "ggnewscale",
+                            "relayer")
 )
   }
 

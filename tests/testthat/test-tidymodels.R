@@ -1,5 +1,5 @@
 
-gg <- c("tidyverse", "lubridate", "ggforce",
+gg <- c("tidyverse", "lubridate", "ggforce", "purrr",
 "colorspace", "particles" ,"ambient", "viridis",
 "ggtrace", "scico" ,"ggfx", "patchwork", "transformr", "farver", "scales", "ggdist" ,"ggpointdensity", "cowplot", "gghalves")
 
