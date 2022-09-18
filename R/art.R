@@ -22,7 +22,7 @@ frac1 <- function(base, new, strength, ...) {
 }
 #' @export
 frac2 <- function(base, new, strength, ...) {
-  base  + (new^abs(strength))
+  base  + (new^log(abs(strength)))
 }
 #' @export
 frac3 <- function(base, new, strength, ...) {
@@ -33,9 +33,8 @@ attr(frac3, 'finalise') <- function(x) x + 0.5
 #' @export
 frac4 <- function(base, new, strength, ...) {
   base  + (base * sin(new)) + abs(sin(strength))
-
-
 }
+
 #' @export
 frac5 <- function(base, new, strength, ...) {
   base  + (new / strength)
@@ -86,7 +85,25 @@ frac14 <- function(base, new, strength, ...) {
   (2 + abs(base)-1)  +  abs(strength)^new
 }
 
-#
+
+#' @export
+frac15 <- function(base, new, strength, ...) {
+  base + strength / new
+}
+
+#' @export
+frac16 <- function(base, new, strength, ...) {
+  sin(base) + new
+}
+attr(frac16, 'finalise') <- function(x) abs(x)
+
+#' @export
+frac17 <- function(base, new, strength, ...) {
+  base + abs(new ^ exp(abs(strength)))
+}
+
+
+
 #' @export
 frac_fun <- function(all = FALSE) {
   frac_names = c("frac1",
@@ -102,7 +119,10 @@ frac_fun <- function(all = FALSE) {
                  "frac11",
                  "frac12",
                  "frac13",
-                 "frac14"
+                 "frac14",
+                 "frac15",
+                 "frac16",
+                 "frac17"
                  )
   if (all) {
     requireNamespace("ambient", quietly = TRUE)
@@ -110,7 +130,4 @@ frac_fun <- function(all = FALSE) {
   }
   return(frac_names)
 }
-
-
-
 
