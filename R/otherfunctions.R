@@ -19,13 +19,15 @@ read_csv_europe <- function(file,
   return(csv)
 }
 
+
+
 ##########
 #' Loading packages
 #' @description type 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 #'
 #' @param ... 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 #' @param parallel if parallel
-#' @param  stan_op Include stan
+#' @param stan_op Include stan
 #'
 #' @return nothing
 #' @export
