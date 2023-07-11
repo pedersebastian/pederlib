@@ -48,4 +48,5 @@ use_split(mtcars, mpg, to_clipboard = FALSE)
 #mtcars_folds <-
 #   bootstraps(mtcars_train, strata = mpg, times = 25)
 
+
 }

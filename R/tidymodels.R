@@ -50,6 +50,9 @@ ctrl <- function(save_workflow = FALSE, ...) {
 #' #mtcars_folds <-
 #' #   bootstraps(mtcars_train, strata = mpg, times = 25)
 #'
+#'
+
+
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL, to_clipboard = TRUE) {
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
   vfold_ok <- c("vfold", "vfolds", "v_fold", "v_folds")
@@ -66,7 +69,7 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
   arguments <- match.call()
   arguments <- as.list(arguments)
 
-  df <- arguments$data
+  df <- as.character(arguments$data)
   strata <- arguments$strata
   number_folds <- arguments$number_folds
 
@@ -150,21 +153,7 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
     cat(rs)
   }
 
-  invisible(NULL)
-}
-
-
-#' Juice
-#'
-#' @param prepped_rec a prepped recipe
-#' @param new_data new data ?
-#' @param ... passed on to bake such as composition
-#'
-#' @return baked tibble
-#' @export
-
-juice <- function(prepped_rec, new_data = NULL, ...) {
-  recipes::bake(prepped_rec, new_data = new_data, ...)
+  invisible(rs)
 }
 
 
@@ -238,6 +227,47 @@ dates <- function(year = TRUE,
 
   return(dates)
 }
+
+
+date_test <- function(...) {
+  feat <-
+    c(
+      "year",
+      "doy",
+      "week",
+      "decimal",
+      "semester",
+      "quarter",
+      "dow",
+      "month"
+    )
+  #dots <-
+  #print(dots)
+  #return(dots)
+  l = ...length()
+  if (!l) {
+    ret <-
+      c("year", "month", "week", "dow", "doy")
+  }
+  else if (purrr::map(rlang::list2(...), is.character) |> purrr::list_c() |> any()) {
+      print("HEE")
+    return(NULL)
+  }
+  else {
+    ret <- rlang::quos(...) |> purrr::map(rlang::as_label) |> purrr::list_c()
+  }
+
+  if (!all(ret %in% feat)) {
+    rlang::abort(paste0(
+      "Possible values of `features` should include: ",
+      paste0("'", feat, "'", collapse = ", ")
+    ))
+  }
+
+  return(ret)
+}
+
+
 
 
 
