@@ -1,4 +1,3 @@
-
 #' Title Absolute value labels
 #'
 #' @param breaks nbreaks
@@ -6,9 +5,9 @@
 #' @return breaks
 #' @export
 #' @examples
-#' #scale_x_continuous(labels = abs_label)
+#' # scale_x_continuous(labels = abs_label)
 #'
-abs_label <- function(breaks){
+abs_label <- function(breaks) {
   labels <- sprintf("%i", abs(breaks))
   # make your labels here
   return(labels)

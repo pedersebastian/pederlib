@@ -4,7 +4,7 @@
 \alias{startup}
 \title{Loading packages}
 \usage{
-startup(..., parallel = FALSE, stan_op = FALSE)
+startup(..., parallel = FALSE, stan_op = FALSE, quiet = FALSE)
 }
 \arguments{
 \item{...}{1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels}

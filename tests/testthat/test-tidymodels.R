@@ -1,7 +1,8 @@
-
-gg <- c("tidyverse", "lubridate", "ggforce", "purrr",
-"colorspace", "particles" ,"ambient", "viridis",
-"ggtrace", "scico" ,"ggfx", "patchwork", "transformr", "farver", "scales", "ggdist" ,"ggpointdensity", "cowplot", "gghalves")
+gg <- c(
+  "tidyverse", "lubridate", "ggforce", "purrr",
+  "colorspace", "particles", "ambient", "viridis",
+  "ggtrace", "scico", "ggfx", "patchwork", "transformr", "farver", "scales", "ggdist", "ggpointdensity", "cowplot", "gghalves"
+)
 
 
 
@@ -11,9 +12,5 @@ test_that("multiplication works", {
 
 test_that("loads", {
   expect_equal(startup(), c("tidyverse", "lubridate"))
- # expect_equal(startup(6), gg)
-
+  # expect_equal(startup(6), gg)
 })
-
-
-

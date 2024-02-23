@@ -33,26 +33,23 @@ ctrl <- function(save_workflow = FALSE, ...) {
 #'
 #' @examples
 #' use_split(mtcars, mpg, to_clipboard = FALSE)
-#' #Returns:
-#' #library(tidymodels)
+#' # Returns:
+#' # library(tidymodels)
 #' #
-#' #set.seed(439)
-#' #mtcars_split <-
+#' # set.seed(439)
+#' # mtcars_split <-
 #' # initial_split(mtcars, strata = mpg)
 #'
-#' #mtcars_train <-
+#' # mtcars_train <-
 #' #   training(mtcars_split)
-#' #mtcars_test <-
+#' # mtcars_test <-
 #' #   testing(mtcars_split)
 #' #
 #' #
-#' #set.seed(274)
-#' #mtcars_folds <-
+#' # set.seed(274)
+#' # mtcars_folds <-
 #' #   bootstraps(mtcars_train, strata = mpg, times = 25)
 #'
-#'
-
-
 use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL, to_clipboard = TRUE) {
   ok_resamples <- c("vfold", "bootstraps", "bootstrap", "boot", "v_fold", "vfolds", "v_folds")
   vfold_ok <- c("vfold", "vfolds", "v_fold", "v_folds")
@@ -148,8 +145,7 @@ use_split <- function(data, strata = NULL, resamples = NULL, number_folds = NULL
   if (to_clipboard) {
     clipr::write_clip(rs, object_type = "character")
     cli::cli_alert_success("Code copied to the clipboard!")
-  }
-  else {
+  } else {
     cat(rs)
   }
 
@@ -241,20 +237,20 @@ date_test <- function(...) {
       "dow",
       "month"
     )
-  #dots <-
-  #print(dots)
-  #return(dots)
-  l = ...length()
+  # dots <-
+  # print(dots)
+  # return(dots)
+  l <- ...length()
   if (!l) {
     ret <-
       c("year", "month", "week", "dow", "doy")
-  }
-  else if (purrr::map(rlang::list2(...), is.character) |> purrr::list_c() |> any()) {
-      print("HEE")
+  } else if (purrr::map(rlang::list2(...), is.character) |> purrr::list_c() |> any()) {
+    print("HEE")
     return(NULL)
-  }
-  else {
-    ret <- rlang::quos(...) |> purrr::map(rlang::as_label) |> purrr::list_c()
+  } else {
+    ret <- rlang::quos(...) |>
+      purrr::map(rlang::as_label) |>
+      purrr::list_c()
   }
 
   if (!all(ret %in% feat)) {
@@ -266,8 +262,3 @@ date_test <- function(...) {
 
   return(ret)
 }
-
-
-
-
-

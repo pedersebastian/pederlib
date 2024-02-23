@@ -16,6 +16,6 @@ breaks
 Title Absolute value labels
 }
 \examples{
-#scale_x_continuous(labels = abs_label)
+# scale_x_continuous(labels = abs_label)
 
 }

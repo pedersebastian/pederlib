@@ -1,5 +1,5 @@
-#sitemap
-#parse lat/lng
+# sitemap
+# parse lat/lng
 ###
 #' Parsing lat and lng
 #'
@@ -17,11 +17,9 @@ parse_geo <- function(tbl, geo_variable, first = "latitude") {
   first <- str_to_lower(first)
   if (first %in% c("latitude", "lat")) {
     first <- "latitude"
-  }
-  else if (first %in% c("longitude", "lng", "long", "lon")) {
-   first <- "longitude"
-  }
-  else {
+  } else if (first %in% c("longitude", "lng", "long", "lon")) {
+    first <- "longitude"
+  } else {
     rlang::abort("Not a valid", body = "Must be latitude or longitude")
   }
 
@@ -40,10 +38,12 @@ parse_geo <- function(tbl, geo_variable, first = "latitude") {
     dplyr::select(-new_geo)
 
   if (first == "longitude") {
-  rs <-   rs %>%
-    dplyr::rename(long= latitude,
-             lat = longitude) %>%
-    dplyr::rename(longitude = long, latitude = latitude)
+    rs <- rs %>%
+      dplyr::rename(
+        long = latitude,
+        lat = longitude
+      ) %>%
+      dplyr::rename(longitude = long, latitude = latitude)
   }
 
   return(rs)

@@ -13,18 +13,17 @@ coolors_scrape <- function(url, cat = FALSE) {
   if (!is.character(url)) {
     rlang::abort("Input must be character")
   }
- rs <-
-   url %>%
+  rs <-
+    url %>%
     stringr::str_extract(pattern = "([^/]+$)") %>%
     stringr::str_split(pattern = "-") %>%
     unlist() %>%
-    paste0("#",.)
+    paste0("#", .)
 
- if (cat) {
-   rs <-
-     paste0(rs, ", ")
-   return(cat(rs))
- }
- return(rs)
-
+  if (cat) {
+    rs <-
+      paste0(rs, ", ")
+    return(cat(rs))
+  }
+  return(rs)
 }

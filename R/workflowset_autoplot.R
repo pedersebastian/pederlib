@@ -1,5 +1,3 @@
-
-
 # wfs_autoplot <- function(trained_workflowset, metric = "roc_auc", n = 1, all_metrics = TRUE, rank_by_metric = FALSE, ...) {
 #   minimize <- c("mn_log_loss", "rmse", "mae", "mape", "mase")
 #

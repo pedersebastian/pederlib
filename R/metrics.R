@@ -1,4 +1,4 @@
-#Metrics
+# Metrics
 
 ########
 # Metrics for regression and classification
@@ -214,4 +214,3 @@ g_mean_multiclass <- function(data, estimator) {
   g_mean <- sqrt(spec * sens)
   g_mean
 }
-
