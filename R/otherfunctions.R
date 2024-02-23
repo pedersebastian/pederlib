@@ -35,180 +35,195 @@ read_csv_europe <- function(file,
 #' @examples
 #'
 #' pederlib::startup(1)
-startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
-
+startup <- function(..., parallel = FALSE, stan_op = FALSE, quiet = FALSE) {
   attached_pack <- .packages()
 
   rlang::check_dots_unnamed()
   pack <- vector()
 
-  tidyverse_pack <- c("ggplot2",
-                 "tibble",
-                 "tidyr",
-                 "readr",
-                 "purrr",
-                 "dplyr",
-                 "stringr",
-                 "forcats")
+  tidyverse_pack <- c(
+    "ggplot2",
+    "tibble",
+    "tidyr",
+    "readr",
+    "purrr",
+    "dplyr",
+    "stringr",
+    "forcats"
+  )
 
-  tidymodels_pack <- c("broom",
-                  "dials",
-                  "dplyr",
-                  "ggplot2",
-                  "infer",
-                  "modeldata",
-                  "parsnip",
-                  "purrr",
-                  "recipes",
-                  "rsample",
-                  "tibble",
-                  "tidyr",
-                  "tune",
-                  "workflows",
-                  "workflowsets",
-                  "yardstick")
+  tidymodels_pack <- c(
+    "broom",
+    "dials",
+    "dplyr",
+    "ggplot2",
+    "infer",
+    "modeldata",
+    "parsnip",
+    "purrr",
+    "recipes",
+    "rsample",
+    "tibble",
+    "tidyr",
+    "tune",
+    "workflows",
+    "workflowsets",
+    "yardstick"
+  )
 
   dots <-
     unlist(rlang::dots_values(...))
 
-  if (length(dots)==0) {
-    dots = 1
+  if (length(dots) == 0) {
+    dots <- 1
   }
   if (is.character(dots)) {
-    dots <-  str_extract(l, "[:digit:]")
+    dots <- str_extract(l, "[:digit:]")
     dots <- dots[!is.na(dots)]
     dots <- as.integer(dots)
   }
-  if (length(dots)==0) {
-    dots = 1
+  if (length(dots) == 0) {
+    dots <- 1
   }
 
   ###
-  if (any(dots ==1)) {
-   # pack <- append(pack, tidyverse_pack)
-    pack <- append(pack, c("tidyverse","lubridate"))
-
+  if (any(dots == 1)) {
+    # pack <- append(pack, tidyverse_pack)
+    pack <- append(pack, c("tidyverse", "lubridate", "readxl"))
   }
 
 
-  tm_addons <- c("baguette",
-                 "finetune",
-                 "textrecipes",
-                 "stacks",
-                 "themis",
-                 "multilevelmod",
-                 "censored",
-                 "discrim",
-                 "plsmod",
-                 "rules",
-                 "baguette",
-                 "embed",
-                 "spatialsample",
-                 "tidyposterior",
-                 "shinymodels",
-                 "extrasteps",
-                 "timetk",
-                 "bonsai",
-                 "rstanarm")
+  tm_addons <- c(
+    "baguette",
+    "finetune",
+    "textrecipes",
+    "stacks",
+    "themis",
+    "multilevelmod",
+    "censored",
+    "discrim",
+    "plsmod",
+    "rules",
+    "baguette",
+    "embed",
+    "spatialsample",
+    "tidyposterior",
+    "shinymodels",
+    "extrasteps",
+    "timetk",
+    "bonsai",
+    "rstanarm"
+  )
 
-  if (any(dots ==2)) {
-   # pack <- append(pack, tidyverse_pack)
-   # pack <- append(pack, tidymodels_pack)
-    pack <- append(pack, c("tidyverse",
-                           "tidymodels",
-                           "lubridate"))
+  if (any(dots == 2)) {
+    # pack <- append(pack, tidyverse_pack)
+    # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c(
+      "tidyverse",
+      "tidymodels",
+      "lubridate",
+      "readxl"
+    ))
     pack <- append(pack, tm_addons)
-
   }
-  if (any(dots ==3)) {
-    #pack <- append(pack, tidyverse_pack)
-    pack <- append(pack, c("tidyverse",
-                           "lubridate",
-                           "rvest"))
+  if (any(dots == 3)) {
+    # pack <- append(pack, tidyverse_pack)
+    pack <- append(pack, c(
+      "tidyverse",
+      "lubridate",
+      "rvest"
+    ))
   }
   if (any(dots == 4)) {
-    #pack <- append(pack, tidyverse_pack)
-   # pack <- append(pack, tidymodels_pack)
-    pack <- append(pack, c("tidyverse",
-                           "lubridate",
-                           "tidymodels",
-                           "psych",
-                           "blandr",
-                           "gtsummary",
-                           "gt",
-                           "blandaltmanR",
-                           "irrCAC"))
+    # pack <- append(pack, tidyverse_pack)
+    # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c(
+      "tidyverse",
+      "lubridate",
+      "tidymodels",
+      "psych",
+      "blandr",
+      "gtsummary",
+      "gt",
+      "blandaltmanR",
+      "irrCAC"
+    ))
   }
-  if (any(dots ==5)) {
-   # pack <- append(pack, tidyverse_pack)
-   # pack <- append(pack, tidymodels_pack)
-    pack <- append(pack, c("tidyverse",
-                           "tidymodels",
-                           "lubridate",
-                           "Matrix",
-                           "lmerTest",
-                           "lme4",
-                           "broom.mixed",
-                           "multilevelmod",
-                           "nlme",
-                           "gamm4",
-                           "blme",
-                           "cAIC4"))
+  if (any(dots == 5)) {
+    # pack <- append(pack, tidyverse_pack)
+    # pack <- append(pack, tidymodels_pack)
+    pack <- append(pack, c(
+      "tidyverse",
+      "tidymodels",
+      "lubridate",
+      "Matrix",
+      "lmerTest",
+      "lme4",
+      "broom.mixed",
+      "multilevelmod",
+      "nlme",
+      "gamm4",
+      "blme",
+      "cAIC4"
+    ))
   }
-  if (any(dots >10)) {
-    pack <- append(pack, c("MASS",
-                           "tidyverse",
-                           "tidymodels",
-                           "lubridate"))
+  if (any(dots > 10)) {
+    pack <- append(pack, c(
+      "MASS",
+      "tidyverse",
+      "tidymodels",
+      "lubridate"
+    ))
     pack <- append(pack, tm_addons)
-    pack <- append(pack, c("tidyverse",
-                           "lubridate",
-                           "tidymodels",
-                           "psych",
-                           "blandr",
-                           "gtsummary",
-                           "gt",
-                           "blandaltmanR",
-                           "irrCAC",
-                           "Matrix",
-                           "lmerTest",
-                           "lme4",
-                           "broom.mixed",
-                           "multilevelmod",
-                           "nlme",
-                           "gamm4",
-                           "blme",
-                           "cAIC4",
-                           "tidytext",
-                           "tidylo",
-                           "rstanarm"
-
+    pack <- append(pack, c(
+      "tidyverse",
+      "lubridate",
+      "tidymodels",
+      "psych",
+      "blandr",
+      "gtsummary",
+      "gt",
+      "blandaltmanR",
+      "irrCAC",
+      "Matrix",
+      "lmerTest",
+      "lme4",
+      "broom.mixed",
+      "multilevelmod",
+      "nlme",
+      "gamm4",
+      "blme",
+      "cAIC4",
+      "tidytext",
+      "tidylo",
+      "rstanarm"
     ))
   }
   if (any(dots == 6)) {
-    pack <- append(pack,  c("tidyverse",
-                            "lubridate",
-                            "ggforce",
-                            "colorspace",
-                            "particles",
-                            "ambient",
-                            "viridis",
-                            "ggtrace",
-                            "scico",
-                            "ggfx",
-                            "patchwork",
-                            "transformr",
-                            "farver",
-                            "scales",
-                            "ggdist",
-                            "ggpointdensity",
-                            "cowplot",
-                            "gghalves",
-                            "purrr",
-                            "broom",
-                            "ggnewscale",
-                            "relayer")
-)
+    pack <- append(pack, c(
+      "tidyverse",
+      "lubridate",
+      "ggforce",
+      "colorspace",
+      "particles",
+      "ambient",
+      "viridis",
+      "ggtrace",
+      "scico",
+      "ggfx",
+      "patchwork",
+      "transformr",
+      "farver",
+      "scales",
+      "ggdist",
+      "ggpointdensity",
+      "cowplot",
+      "gghalves",
+      "purrr",
+      "broom",
+      "ggnewscale",
+      "relayer"
+    ))
   }
 
 
@@ -217,93 +232,111 @@ startup <-  function(..., parallel = FALSE, stan_op = FALSE) {
   old_pack <- pack[pack %in% attached_pack]
   pack <- pack[!pack %in% attached_pack]
 
-  # dots_logial <- append(all(dots>5),all(dots <1) )
-  # print(dots_logial)
-  #
-  # if (any(dots_logial==TRUE)) {
-  #   print("Hei")
-  # }
+
   attach <- vector()
-  if (length(pack)>0) {
-    cat("Loaded packages: \n")
+  if (length(pack) > 0) {
+    if (!quiet) {
+      cat("Loaded packages: \n")
+    }
     for (i in pack) {
       x <- suppressMessages(suppressWarnings(require(i, character.only = TRUE)))
       attach <- append(attach, i)
-    #  print(attach)
+      #  print(attach)
       Sys.sleep(0.005)
-     if (x) {
-       if (i == "tidyverse") {
-         cat("Tidyverse: \n")
-         for (j in tidyverse_pack) {
-           cli::cli_alert_success(paste0("\t", j, " (", packageVersion(j),")"))
-         }
-         cat("\n")
-       }
-       if (i == "tidymodels") {
-         cat("Tidymodels: \n")
-         tm <- tidymodels_pack[!tidymodels_pack %in% tidyverse_pack]
-      #   print(tm)
-         for (k in tm) {
-           cli::cli_alert_success(paste0("\t", k," (", packageVersion(i),")"))
-         }
-         cat("\n")
-       }
-       # if (i == "tidymodelsaddons") {
-       #   cat("Tidymodels - add-on: \n")
-       #   for (m in tm_addons) {
-       #     cli::cli_alert_success(paste0("\t", m))
-       #   }
-       #   cat("\n")
-       # }
+      if (x) {
+        if (i == "tidyverse") {
+          if (!quiet) {
+            cat("Tidyverse: \n")
+          }
+          for (j in tidyverse_pack) {
+            if (!quiet) {
+              cli::cli_alert_success(paste0("\t", j, " (", packageVersion(j), ")"))
+            }
+          }
+          cat("\n")
+        }
+        if (i == "tidymodels") {
+          cat("Tidymodels: \n")
+          tm <- tidymodels_pack[!tidymodels_pack %in% tidyverse_pack]
+          #   print(tm)
+          for (k in tm) {
+            if (!quiet) {
+              cli::cli_alert_success(paste0("\t", k, " (", packageVersion(i), ")"))
+            }
+          }
+          if (!quiet) {
+            cat("\n")
+          }
+        }
+        # if (i == "tidymodelsaddons") {
+        #   cat("Tidymodels - add-on: \n")
+        #   for (m in tm_addons) {
+        #     cli::cli_alert_success(paste0("\t", m))
+        #   }
+        #   cat("\n")
+        # }
 
-       else {
-         cli::cli_alert_success(paste0(i, " (", packageVersion(i),")"))
-       }
-
-      }
-      else {
-        cli::cli_alert_warning(i)
+        else {
+          if (!quiet) {
+            cli::cli_alert_success(paste0(i, " (", packageVersion(i), ")"))
+          }
+        }
+      } else {
+        if (!quiet) {
+          cli::cli_alert_warning(i)
+        }
       }
     }
   }
 
-  if (length(old_pack)>0) {
+  if (length(old_pack) > 0) {
     cat("\nThese packages is already loaded 🙈   \n")
     for (i in old_pack) {
-      cli::cli_alert_info(i)
+      if (!quiet) {
+        cli::cli_alert_info(i)
+      }
     }
   }
 
   cat("\n\n")
   cores <- parallel::detectCores()
   if (parallel) {
-
     doParallel::registerDoParallel(cores = 8)
-    cli::cli_alert_success(glue::glue("Parallel processing has been initiated with {cores} cores. 🤖"))
+    if (!quiet) {
+      cli::cli_alert_success(glue::glue("Parallel processing has been initiated with {cores} cores. 🤖"))
+    }
   }
 
   if (stan_op) {
-    mc.cores = parallel::detectCores()
+    mc.cores <- parallel::detectCores()
     rstan_options(auto_write = TRUE)
-    cli::cli_alert_success(glue::glue("MC-cores has been set to {cores} cores. 🎲\n \t     auto_write is set to TRUE"))
+    if (!quiet) {
+      cli::cli_alert_success(glue::glue("MC-cores has been set to {cores} cores. 🎲\n \t     auto_write is set to TRUE"))
+    }
   }
 
   if (identical(ggplot2:::ggplot_global$theme_current, pederlib::theme_center())) {
-    cli::cli_alert_info("Theme is already theme_center  🙈")
-
-  }
-  else {
+    if (!quiet) {
+      cli::cli_alert_info("Theme is already theme_center  🙈")
+    }
+  } else {
     ggplot2::theme_set(pederlib::theme_center())
-    cli::cli_alert_success("Theme set to theme_center 👌")
+    if (!quiet) {
+      cli::cli_alert_success("Theme set to theme_center 👌")
+    }
   }
 
   if (ggplot2:::GeomPoint$default_aes$colour == "#1d3557") {
-    cli::cli_alert_info("Geom defaults is already updated 🙈")
-  }
-  else {
+    if (!quiet) {
+      cli::cli_alert_info("Geom defaults is already updated 🙈")
+    }
+  } else {
     ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
     ggplot2::update_geom_defaults("point", list(color = "#1d3557", alpha = 0.9))
-    cli::cli_alert_success("Geom defaults updated ✌️")
+
+    if (!quiet) {
+      cli::cli_alert_success("Geom defaults updated ✌️")
+    }
   }
 
   invisible(pack)
@@ -423,8 +456,8 @@ sum_fun <- function(x, na.rm = FALSE) {
 #' @export
 #'
 #' @examples
-#'x <- c(1,2,3,1,2,3,3)
-#'mode_vec(x)
+#' x <- c(1, 2, 3, 1, 2, 3, 3)
+#' mode_vec(x)
 mode_vec <- function(x, na.rm = FALSE) {
   if (!is.numeric(x)) {
     stop("Imput must be numberic")
@@ -456,6 +489,6 @@ parse_genre_JSON <- function(x) {
     stringr::str_split(",") %>%
     purrr::map(~ stringr::str_remove_all(.x, "\\'")) %>%
     purrr::map(~ stringr::str_remove_all(.x, "[:punct:]")) %>%
-    purrr:: map(stringr::str_squish)
+    purrr::map(stringr::str_squish)
   return(rs)
 }
