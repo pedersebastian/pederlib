@@ -15,6 +15,9 @@ frac1(base, new, strength, ...)
 
 \item{...}{idk}
 }
+\value{
+x
+}
 \description{
 Fractals
 }

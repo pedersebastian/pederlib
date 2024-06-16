@@ -53,7 +53,7 @@ theme_pedr <- function(base_size = 11,
   ret$strip.background <- ggplot2::element_rect(
     fill = strip_color,
     color = NA,
-    size = NULL,
+    linewidth = NULL,
     linetype = NULL
   )
   ret$plot.subtitle <- ggplot2::element_text(
@@ -124,7 +124,7 @@ theme_center <- function(base_size = 11,
   ret$strip.background <- ggplot2::element_rect(
     fill = strip_color,
     color = NA,
-    size = NULL,
+    linewidth = NULL,
     linetype = NULL
   )
   ret$plot.subtitle <- ggplot2::element_text(

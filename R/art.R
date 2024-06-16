@@ -9,7 +9,7 @@ golden_ratio <- 1.618033988749894
 #' @param strength  x
 #' @param ... idk
 #'
-#' @return
+#' @return x
 #' @export
 
 

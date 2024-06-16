@@ -12,6 +12,8 @@ startup(..., parallel = FALSE, stan_op = FALSE, quiet = FALSE)
 \item{parallel}{if parallel}
 
 \item{stan_op}{Include stan}
+
+\item{quiet}{quiet}
 }
 \value{
 nothing

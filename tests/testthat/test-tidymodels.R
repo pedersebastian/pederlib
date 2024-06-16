@@ -11,6 +11,6 @@ test_that("multiplication works", {
 })
 
 test_that("loads", {
-  expect_equal(startup(), c("tidyverse", "lubridate"))
+  expect_equal(startup(), c("tidyverse", "lubridate", "readxl"))
   # expect_equal(startup(6), gg)
 })

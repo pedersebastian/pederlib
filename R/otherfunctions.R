@@ -19,6 +19,33 @@ read_csv_europe <- function(file,
   return(csv)
 }
 
+#' Read multiple files in directory
+#'
+#' @param directory directory
+#' @param name_col add a column of the name of the file called 'file_name'
+#' @param fun read function / function to apply to the files in directory
+#' @param ... passed to fun
+#'
+#' @return a list
+#' @export
+#'
+
+read_dir <- function(directory, name_col = TRUE ,fun = readr::read_csv, ...) {
+  out <-
+    paste0(directory, dir(directory)) |>
+    purrr::map(\(x) purrr::exec(fun, x, ...))
+
+  if (name_col) {
+    out <-
+      purrr::modify2(
+        out,
+        dir(directory),
+        \(x, y) dplyr::mutate(x, file_name = y)
+      )
+  }
+  return(out)
+
+}
 
 
 ##########
@@ -28,6 +55,7 @@ read_csv_europe <- function(file,
 #' @param ... 1 Normal, 2 modeling, 3 webscraping, 4 psychometrics, 5 mixedmodels
 #' @param parallel if parallel
 #' @param stan_op Include stan
+#' @param quiet quiet
 #'
 #' @return nothing
 #' @export
@@ -430,7 +458,7 @@ sum_fun <- function(x, na.rm = FALSE) {
   ### SDV
   i <- 0
   sdv <- vector(mode = "numeric", length = length_m)
-  # Burde vært for-loop
+  # Burde for-loop
   while (i < length_m + 1) {
     sdv[i] <- (x[i] - (sum(x) / length_m))^2
     i <- i + 1
