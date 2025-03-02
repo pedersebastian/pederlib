@@ -507,7 +507,7 @@ mode_vec <- function(x, na.rm = FALSE) {
 
 #' Title
 #'
-#' @param x character vector of JSON like structuse
+#' @param x character vector of JSON like structure
 #'
 #' @return a list of character vectors
 #' @export
@@ -520,3 +520,16 @@ parse_genre_JSON <- function(x) {
     purrr::map(stringr::str_squish)
   return(rs)
 }
+
+#' List locales
+#'
+#' @returns list
+#' @export
+#'
+#' @examples
+#' list_locale()
+list_locale <- function() {
+  locales <- system("locale -a", intern = TRUE)
+  return(sort(locales))
+}
+
