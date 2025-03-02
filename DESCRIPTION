@@ -1,6 +1,6 @@
 Package: pederlib
 Title: Personal library 
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: 
     person("Peder Sebastian", "Martinsen", , "peder.s.martinsen@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
