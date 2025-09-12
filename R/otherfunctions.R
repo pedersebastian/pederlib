@@ -354,18 +354,15 @@ startup <- function(..., parallel = FALSE, stan_op = FALSE, quiet = FALSE) {
     }
   }
 
-  if (ggplot2:::GeomPoint$default_aes$colour == "#1d3557") {
-    if (!quiet) {
-      cli::cli_alert_info("Geom defaults is already updated 🙈")
-    }
-  } else {
+
+
     ggplot2::update_geom_defaults("rect", list(fill = "#1d3557", alpha = 0.9))
     ggplot2::update_geom_defaults("point", list(color = "#1d3557", alpha = 0.9))
 
     if (!quiet) {
       cli::cli_alert_success("Geom defaults updated ✌️")
     }
-  }
+
 
   invisible(pack)
 }
